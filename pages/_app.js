@@ -23,55 +23,55 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
         {/* Favicon */}
-        <link rel="icon" sizes="16x16" href="/template/images/favicon.png" />
+        <link rel="icon" sizes="16x16" href="/images/favicon.png" />
         {/* inject:css */}
-        <link rel="stylesheet" href="/template/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/template/css/line-awesome.css" />
-        <link rel="stylesheet" href="/template/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="/template/css/owl.theme.default.min.css" />
-        <link rel="stylesheet" href="/template/css/jquery-te-1.4.0.css" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/css/line-awesome.css" />
+        <link rel="stylesheet" href="/css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="/css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="/css/jquery-te-1.4.0.css" />
 
-        <link rel="stylesheet" href="/template/css/upvotejs.min.css" />
-        <link rel="stylesheet" href="/template/css/selectize.css" />
-        <link rel="stylesheet" href="/template/css/style.css" />
+        <link rel="stylesheet" href="/css/upvotejs.min.css" />
+        <link rel="stylesheet" href="/css/selectize.css" />
+        <link rel="stylesheet" href="/css/style.css" />
       </Head>
       <Component {...pageProps} />
       <Script
-        src="/template/js/jquery-3.4.1.min.js"
+        src="/js/jquery-3.4.1.min.js"
         strategy="beforeInteractive"
       />
       <Script
-        src="/template/js/bootstrap.bundle.min.js"
+        src="/js/bootstrap.bundle.min.js"
         strategy="beforeInteractive"
       />
       <Script
-        src="/template/js/owl.carousel.min.js"
+        src="/js/owl.carousel.min.js"
         strategy="beforeInteractive"
       />
       <Script
-        src="/template/js/jquery-te-1.4.0.min.js"
+        src="/js/jquery-te-1.4.0.min.js"
         strategy="beforeInteractive"
       />
 
       <Script
-        src="/template/js/upvote.vanilla.js"
+        src="/js/upvote.vanilla.js"
         strategy="beforeInteractive"
       />
       <Script
-        src="/template/js/upvote-script.js"
+        src="/js/upvote-script.js"
         strategy="beforeInteractive"
       />
 
       <Script
-        src="/template/js/jquery.multi-file.min.js"
+        src="/js/jquery.multi-file.min.js"
         strategy="beforeInteractive"
       />
 
       <Script
-        src="/template/js/selectize.min.js"
+        src="/js/selectize.min.js"
         strategy="beforeInteractive"
       />
-      <Script src="/template/js/main.js" strategy="beforeInteractive" />
+      <Script src="/js/main.js" strategy="beforeInteractive" />
     </Layout>
   );
 }
