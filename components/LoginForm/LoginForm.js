@@ -1,5 +1,31 @@
 import React from "react";
-import firebase from "../../utils/firebase/index";
+import firebase from "firebase/compat/app";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import "firebase/compat/auth";
+import { getDomain } from "../../utils/helper/helpers";
+import styles from "../../styles/CustomFirebase.module.css";
+import "firebaseui/dist/firebaseui.css";
+const uiConfig = {
+  signInFlow: "redirect",
+  signInSuccessUrl: "/",
+  signInOptions: [
+    {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      fullLabel: "Log in with google"
+    },
+    {
+      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      fullLabel: "Log in with facebook"
+    },
+    {
+      provider: firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      fullLabel: "Log in with Twitter"
+    }
+  ],
+  callbacks: {
+    // signInSuccessWithAuthResult: () => false
+  }
+};
 function LoginForm() {
   return (
     <section className="login-area pt-80px pb-80px position-relative">
@@ -118,7 +144,7 @@ function LoginForm() {
                   </button>
                 </div>
                 {/* end form-group */}
-                <div className="social-icon-box">
+                <div className="social-icon-box" id="firebaseui-auth-container">
                   <div className="pb-3 d-flex align-items-center">
                     <hr className="flex-grow-1 border-top-gray" />
                     <span className="mx-2 text-gray-2 fw-medium text-uppercase fs-14">
@@ -126,6 +152,11 @@ function LoginForm() {
                     </span>
                     <hr className="flex-grow-1 border-top-gray" />
                   </div>
+                  <StyledFirebaseAuth
+                    uiConfig={uiConfig}
+                    firebaseAuth={firebase.auth()}
+                    className={styles.firebaseUi}
+                  />
                   <button
                     className="btn theme-btn google-btn d-flex align-items-center justify-content-center w-100 mb-2"
                     type="button"

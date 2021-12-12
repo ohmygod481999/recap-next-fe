@@ -2,7 +2,9 @@ import React from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import RunToTop from "../../components/runToTop/RunToTop";
+import useAuth from "../../utils/hooks/useAuth";
 function Layout({ children }) {
+  useAuth();
   return (
     <div>
       {/* loading */}

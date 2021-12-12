@@ -1,7 +1,11 @@
+import { useReactiveVar } from "@apollo/client";
 import Link from "next/link";
 import React from "react";
+import { authVar } from "../../utils/apollo/entities/auth";
 import { getDomain } from "../../utils/helper/helpers";
 function Header() {
+  const auth = authVar();
+  console.log(auth);
   return (
     <header className="header-area bg-white">
       <div className="container">
@@ -69,32 +73,29 @@ function Header() {
                 </div>
               </form>
               <div className="nav-right-button">
-                <a
-                  href="#"
-                  className="btn theme-btn theme-btn-outline mr-2"
-                  data-toggle="modal"
-                  data-target="#loginModal"
-                >
-                  <i className="la la-sign-in mr-1" /> Login
-                </a>
-                <a
-                  href="#"
-                  className="btn theme-btn"
-                  data-toggle="modal"
-                  data-target="#signUpModal"
-                >
-                  <i className="la la-user mr-1" /> Sign up
-                </a>
+                <Link href={"/login"}>
+                  <a
+                    className="btn theme-btn theme-btn-outline mr-2"
+                    data-toggle="modal"
+                    data-target="#loginModal"
+                  >
+                    <i className="la la-sign-in mr-1" /> Login
+                  </a>
+                </Link>
+                <Link href={"/signup"}>
+                  <a
+                    className="btn theme-btn"
+                    data-toggle="modal"
+                    data-target="#signUpModal"
+                  >
+                    <i className="la la-user mr-1" /> Sign up
+                  </a>
+                </Link>
               </div>
-              {/* end nav-right-button */}
             </div>
-            {/* end menu-wrapper */}
           </div>
-          {/* end col-lg-10 */}
         </div>
-        {/* end row */}
       </div>
-      {/* end container */}
       <div className="off-canvas-menu custom-scrollbar-styled">
         <div
           className="off-canvas-menu-close icon-element icon-element-sm shadow-sm"
