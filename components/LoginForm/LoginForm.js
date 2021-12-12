@@ -1,5 +1,5 @@
 import React from "react";
-
+import firebase from "../../utils/firebase/index";
 function LoginForm() {
   return (
     <section className="login-area pt-80px pb-80px position-relative">
@@ -10,7 +10,7 @@ function LoginForm() {
             <div className="col-lg-6">
               <div className="form-content py-4 pr-60px pl-60px border-right border-right-gray h-100 d-flex align-items-center justify-content-center">
                 <img
-                  src="/template/images/undraw-remotely.svg"
+                  src="/images/undraw-remotely.svg"
                   alt="Image"
                   className="img-fluid"
                 />

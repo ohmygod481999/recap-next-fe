@@ -10,7 +10,7 @@ function Header() {
             <div className="logo-box">
               <Link href="/" className="logo" style={{ cursor: "pointer" }}>
                 <img
-                  src={getDomain("template/images/recap-rec.png")}
+                  src={getDomain("/images/recap-rec.png")}
                   alt="logo"
                   style={{ cursor: "pointer" }}
                 />
