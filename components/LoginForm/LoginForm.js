@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "firebase/compat/app";
+import firebase, {auth} from "../../utils/firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import "firebase/compat/auth";
 import { getDomain } from "../../utils/helper/helpers";
@@ -154,7 +154,7 @@ function LoginForm() {
                   </div>
                   <StyledFirebaseAuth
                     uiConfig={uiConfig}
-                    firebaseAuth={firebase.auth()}
+                    firebaseAuth={auth}
                     className={styles.firebaseUi}
                   />
                   <button
