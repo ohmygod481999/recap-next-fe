@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 import * as firebaseui from "firebaseui";
 
 const firebaseConfig = {
@@ -10,9 +10,9 @@ const firebaseConfig = {
     appId: "1:654326712373:web:c33ffc267955df3ee4897c",
     measurementId: "${config.measurementId}"
   };
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
-export const auth = firebase.auth();
+export const auth = app.auth();
 export const authUI = new firebaseui.auth.AuthUI(auth);
 
-export default firebase;
+export default app;
