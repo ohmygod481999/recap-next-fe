@@ -6,6 +6,6 @@ export const apolloClient = new ApolloClient({
   cache: cache,
   headers: {
     "content-type": "application/json",
-    "x-hasura-admin-secret": process.env.REACT_APP_HASURA_ADMIN_SECRET
+    "x-hasura-admin-secret": process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET
   }
 });
