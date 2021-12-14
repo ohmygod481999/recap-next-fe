@@ -13,7 +13,7 @@ function Footer() {
             <div className="footer-item">
               <a href="index.html" className="d-inline-block">
                 <img
-                  src={getDomain("template/images/logo-black.png")}
+                  src={getDomain("/images/logo-black.png")}
                   alt="footer logo"
                   className="footer-logo"
                 />

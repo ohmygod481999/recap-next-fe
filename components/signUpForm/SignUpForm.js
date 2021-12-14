@@ -1,15 +1,45 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import firebase from "../../utils/firebase";
 
-function signUpForm() {
+const _createUserWithEmailAndPassword = async (email, password) =>
+  firebase.auth().createUserWithEmailAndPassword(email, password);
+function SignupForm() {
+  const router = useRouter();
+  const [info, setInfo] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState(null);
+  const { name, email, password } = info;
+  const _handleChange = (e) => {
+    setInfo((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+  const _handleSubmit = (e) => {
+    e.preventDefault();
+    if (info.email && info.password) {
+      _createUserWithEmailAndPassword(info.email, info.password)
+        .then((user) => {
+          router.push("/");
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    }
+  };
   return (
     <section className="sign-up-area pt-80px pb-80px position-relative">
       <div className="container">
-        <form action="#" className="card card-item">
+        <form className="card card-item" onSubmit={_handleSubmit}>
           <div className="card-body row p-0">
             <div className="col-lg-6">
               <div className="form-content py-4 pr-60px pl-60px border-right border-right-gray h-100 d-flex align-items-center justify-content-center">
                 <img
-                  src="/template/images/undraw-remotely.svg"
+                  src="/images/undraw-remotely.svg"
                   alt="Image"
                   className="img-fluid"
                 />
@@ -30,17 +60,20 @@ function signUpForm() {
                     Disilab.
                   </p>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label className="fs-14 text-black fw-medium lh-18">
                     Display name
                   </label>
                   <input
-                    type="email"
-                    name="email"
+                    type="text"
+                    name="name"
                     className="form-control form--control"
                     placeholder="Enter name"
+                    required
+                    value={name}
+                    onChange={_handleChange}
                   />
-                </div>
+                </div> */}
                 {/* end form-group */}
                 <div className="form-group">
                   <label className="fs-14 text-black fw-medium lh-18">
@@ -51,6 +84,9 @@ function signUpForm() {
                     name="email"
                     className="form-control form--control"
                     placeholder="Email address"
+                    required
+                    value={email}
+                    onChange={_handleChange}
                   />
                 </div>
                 {/* end form-group */}
@@ -64,6 +100,9 @@ function signUpForm() {
                       type="password"
                       name="password"
                       placeholder="Password"
+                      required
+                      value={password}
+                      onChange={_handleChange}
                     />
                     <div className="input-group-append">
                       <button
@@ -178,7 +217,7 @@ function signUpForm() {
                     privacy policy
                   </a>
                 </p>
-                <div className="social-icon-box">
+                {/* <div className="social-icon-box">
                   <div className="pb-3 d-flex align-items-center">
                     <hr className="flex-grow-1 border-top-gray" />
                     <span className="mx-2 text-gray-2 fw-medium text-uppercase fs-14">
@@ -246,7 +285,7 @@ function signUpForm() {
                     </span>
                     <span className="flex-grow-1">Sign up with Twitter</span>
                   </button>
-                </div>
+                </div> */}
               </div>
               {/* end form-action-wrapper */}
             </div>
@@ -280,4 +319,4 @@ function signUpForm() {
   );
 }
 
-export default signUpForm;
+export default SignupForm;
