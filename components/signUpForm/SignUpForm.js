@@ -60,7 +60,7 @@ function SignupForm() {
                     Disilab.
                   </p>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label className="fs-14 text-black fw-medium lh-18">
                     Display name
                   </label>
@@ -73,7 +73,7 @@ function SignupForm() {
                     value={name}
                     onChange={_handleChange}
                   />
-                </div>
+                </div> */}
                 {/* end form-group */}
                 <div className="form-group">
                   <label className="fs-14 text-black fw-medium lh-18">
