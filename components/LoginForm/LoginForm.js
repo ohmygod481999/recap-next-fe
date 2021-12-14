@@ -1,37 +1,90 @@
-import React from "react";
-import firebase, {auth} from "../../utils/firebase";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import React, { useEffect, useState } from "react";
+import firebase, { auth } from "../../utils/firebase";
 import "firebase/compat/auth";
-import { getDomain } from "../../utils/helper/helpers";
-import styles from "../../styles/CustomFirebase.module.css";
-import "firebaseui/dist/firebaseui.css";
-const uiConfig = {
-  signInFlow: "redirect",
-  signInSuccessUrl: "/",
-  signInOptions: [
-    {
-      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      fullLabel: "Log in with google"
-    },
-    {
-      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      fullLabel: "Log in with facebook"
-    },
-    {
-      provider: firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-      fullLabel: "Log in with Twitter"
-    }
-  ],
-  callbacks: {
-    // signInSuccessWithAuthResult: () => false
-  }
-};
+import { useRouter } from "next/router";
+const ggProvider = new firebase.auth.GoogleAuthProvider();
+const fbProvider = new firebase.auth.FacebookAuthProvider();
+const twProvider = new firebase.auth.TwitterAuthProvider();
+const signInWithEmailAndPassword = async (email, password) =>
+  firebase.auth().signInWithEmailAndPassword(email, password);
 function LoginForm() {
+  const router = useRouter();
+  const [infoLogin, setInfoLogin] = useState({
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState(null);
+  const _handleChange = (e) => {
+    setInfoLogin((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+  const handleGoogle = (e) => {
+    firebase
+      .auth()
+      .signInWithPopup(ggProvider)
+      .then(function (result) {
+        router.push("/");
+      })
+      .catch(function (error) {
+        console.error("Error: hande error here>>>", error.code);
+      });
+  };
+  const handleFacebook = (e) => {
+    firebase
+      .auth()
+      .signInWithPopup(fbProvider)
+      .then(function (result) {
+        router.push("/");
+      })
+      .catch(function (error) {
+        console.error("Error: hande error here>>>", error.code);
+      });
+  };
+  const handleTwitter = (e) => {
+    firebase
+      .auth()
+      .signInWithRedirect(twProvider)
+      .then(function (result) {
+        router.push("/");
+      })
+      .catch(function (error) {
+        console.error("Error: hande error here>>>", error.code);
+      });
+  };
+
+  const _handleSubmit = (e) => {
+    e.preventDefault();
+    if (infoLogin.email && infoLogin.password) {
+      signInWithEmailAndPassword(infoLogin.email, infoLogin.password)
+        .then((user) => {
+          console.log("sign in with email password success");
+          console.log(user);
+          router.push("/");
+        })
+        .catch((error) => setError(error.message));
+    }
+  };
+
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      router.reload();
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, []);
   return (
     <section className="login-area pt-80px pb-80px position-relative">
       <div className="shape-bg position-absolute top-0 left-0 w-100 h-100 opacity-2 z-index-n1" />
       <div className="container">
-        <form action="#" className="card card-item login-form">
+        <form
+          action="post"
+          className="card card-item login-form"
+          onSubmit={_handleSubmit}
+        >
           <div className="card-body row p-0">
             <div className="col-lg-6">
               <div className="form-content py-4 pr-60px pl-60px border-right border-right-gray h-100 d-flex align-items-center justify-content-center">
@@ -47,6 +100,7 @@ function LoginForm() {
               <div className="form-action-wrapper py-5">
                 <div className="form-group">
                   <h3 className="fs-22 pb-3 fw-bold">Log in to Disilab</h3>
+                  {error && <span>{error}</span>}
                   <div className="divider">
                     <span />
                   </div>
@@ -63,6 +117,9 @@ function LoginForm() {
                     name="email"
                     className="form-control form--control"
                     placeholder="Email address"
+                    value={infoLogin.email}
+                    onChange={_handleChange}
+                    required
                   />
                 </div>
                 {/* end form-group */}
@@ -76,6 +133,9 @@ function LoginForm() {
                       type="password"
                       name="password"
                       placeholder="Password"
+                      value={infoLogin.password}
+                      onChange={_handleChange}
+                      required
                     />
                     <div className="input-group-append">
                       <button
@@ -152,14 +212,10 @@ function LoginForm() {
                     </span>
                     <hr className="flex-grow-1 border-top-gray" />
                   </div>
-                  <StyledFirebaseAuth
-                    uiConfig={uiConfig}
-                    firebaseAuth={auth}
-                    className={styles.firebaseUi}
-                  />
                   <button
                     className="btn theme-btn google-btn d-flex align-items-center justify-content-center w-100 mb-2"
                     type="button"
+                    onClick={handleGoogle}
                   >
                     <span className="btn-icon">
                       <svg
@@ -180,6 +236,7 @@ function LoginForm() {
                   <button
                     className="btn theme-btn facebook-btn d-flex align-items-center justify-content-center w-100 mb-2"
                     type="button"
+                    onClick={handleFacebook}
                   >
                     <span className="btn-icon">
                       <svg
@@ -200,6 +257,7 @@ function LoginForm() {
                   <button
                     className="btn theme-btn twitter-btn d-flex align-items-center justify-content-center w-100"
                     type="button"
+                    onClick={handleTwitter}
                   >
                     <span className="btn-icon">
                       <svg

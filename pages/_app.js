@@ -7,6 +7,8 @@ import useAuth from "../utils/hooks/useAuth";
 import { auth } from "../utils/firebase";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "../utils/apollo/index";
+import "../styles/CustomFirebase.global.css";
+
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={apolloClient}>

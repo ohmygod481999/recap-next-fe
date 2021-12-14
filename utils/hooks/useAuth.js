@@ -3,7 +3,9 @@ import firebase, { auth } from "../firebase";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { authMutations } from "../apollo/entities/auth/operations/auth.mutations";
 import { GET_USER_BY_FIREBASE_ID } from "../apollo/entities/auth/operations/auth.queries";
+import { useRouter } from "next/router";
 function useAuth() {
+  const router = useRouter();
   const [getUser, { called, loading, data }] = useLazyQuery(
     GET_USER_BY_FIREBASE_ID
   );
@@ -24,7 +26,6 @@ function useAuth() {
             photoURL: user.photoURL,
             uid: user.uid
           };
-
           setAuthTemp({
             userInfo,
             idToken,
@@ -35,6 +36,7 @@ function useAuth() {
               fb_id: user.uid
             }
           });
+          // router.reload();
         } else {
           authMutations.setAuth(null, null, null, null);
         }
@@ -42,9 +44,9 @@ function useAuth() {
     return () => unregisterAuthObserver();
   }, []);
   useEffect(() => {
-    console.log(data);
-    if (called && data && auth) {
-      const userId = data.user[0].id || null;
+    if (called && data && auth && data.user?.length !== 0) {
+      const userId = data.user?.[0]?.id || null;
+      console.log(data.user);
       console.log("code run");
       authMutations.setAuth(
         authTemp.userInfo,
