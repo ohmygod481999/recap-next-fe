@@ -1,6 +1,84 @@
-import React from "react";
-
-function CaptionDetailContent() {
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
+import { useRouter } from "next/router";
+import { gql } from "@apollo/client";
+import React, { useState } from "react";
+import { authVar } from "../../utils/apollo/entities/auth";
+import { ADD_COMMENT } from "../../utils/apollo/entities/caption/operations/caption.mutations";
+import { GET_COMMENT_OF_SINGLE_CAPTION } from "../../utils/apollo/entities/caption/operations/caption.queries";
+import TimeAgo from "../TimeAgo";
+import CaptionDetailComment from "./CaptionDetailComment";
+import { isFirstDayOfMonth } from "date-fns";
+function CaptionDetailContent({ singleCaptionData }) {
+  const { caption_by_pk } = singleCaptionData;
+  const { caption_tags, content, created_at, id } = caption_by_pk;
+  const authCacheData = useReactiveVar(authVar);
+  const [comment, setCommentData] = useState("");
+  const date = new Date();
+  const { loading, error, data } = useQuery(GET_COMMENT_OF_SINGLE_CAPTION, {
+    variables: {
+      caption_id: id
+    }
+  });
+  const [addComment, result] = useMutation(ADD_COMMENT, {
+    update(cache, { data: insert_comment_one }) {
+      cache.modify({
+        fields: {
+          comment(existingComments = []) {
+            const newCommentRef = cache.writeFragment({
+              data: insert_comment_one.insert_comment_one,
+              fragment: gql`
+                fragment newComment on commented {
+                  content
+                  created_at
+                  id
+                  user {
+                    id
+                    user_detail {
+                      displayName
+                      photoURL
+                      __typename
+                    }
+                    __typename
+                  }
+                  __typename
+                }
+              `
+            });
+            return existingComments.concat(newCommentRef);
+          }
+        }
+      });
+    }
+  });
+  const _handleChange = (e) => setCommentData(e.target.value);
+  const _handleSubmit = (e) => {
+    e.preventDefault();
+    addComment({
+      variables: {
+        caption_id: id,
+        user_id: authCacheData.id,
+        content: comment
+      },
+      optimisticResponse: {
+        insert_comment_one: {
+          __typename: "commentzz",
+          content: comment,
+          created_at: date.toISOString(),
+          id: id,
+          user: {
+            id: authCacheData.id,
+            __typename: "userzzs",
+            user_detail: {
+              displayName: authCacheData.user.displayName,
+              photoURL: authCacheData.user.photoURL,
+              __typename: "UserRecordzz"
+            }
+          }
+        }
+      }
+    });
+    setCommentData("");
+  };
   return (
     <section className="question-area pt-40px pb-40px">
       <div className="container">
@@ -11,21 +89,12 @@ function CaptionDetailContent() {
                 <div className="media media-card shadow-none rounded-0 mb-0 bg-transparent p-0">
                   <div className="media-body">
                     <h5 className="fs-20">
-                      <a href="question-details.html">
-                        Hãy yêu một người có thể vì bạn mà làm tất cả… Chứ đừng
-                        yêu một người chỉ biết diễn tả tương lai!
-                      </a>
+                      <a href="#">{content}</a>
                     </h5>
                     <div className="meta d-flex flex-wrap align-items-center fs-13 lh-20 py-1">
                       <div className="pr-3">
-                        <span>Post</span>
-                        <span className="text-black">1 hour ago</span>
-                      </div>
-                      <div className="pr-3">
-                        <span className="pr-1">Active</span>
-                        <a href="#" className="text-black">
-                          19 days ago
-                        </a>
+                        <span>Post </span>
+                        <TimeAgo timestamp={created_at} />
                       </div>
                       <div className="pr-3">
                         <span className="pr-1">Viewed</span>
@@ -33,289 +102,24 @@ function CaptionDetailContent() {
                       </div>
                     </div>
                     <div className="tags">
-                      <a href="#" className="tag-link">
-                        thả thính
-                      </a>
-                      <a href="#" className="tag-link">
-                        xàm
-                      </a>
+                      {caption_tags.map((tag) => (
+                        <a key={tag.tag.id} href="#" className="tag-link">
+                          {tag.tag.name}
+                        </a>
+                      ))}
                     </div>
                   </div>
                 </div>
                 {/* end media */}
               </div>
               {/* end question-highlight */}
-              <div className="answer-wrap d-flex">
-                <div className="answer-body-wrap flex-grow-1 pl-0">
-                  <div className="answer-body"></div>
-                  {/* end answer-body */}
-                  <div className="question-post-user-action">
-                    <div className="media media-card user-media align-items-center">
-                      <a href="user-profile.html" className="media-img d-block">
-                        <img src="images/img4.jpg" alt="avatar" />
-                      </a>
-                      <div className="media-body d-flex align-items-center justify-content-between">
-                        <div>
-                          <h5 className="pb-1">
-                            <a href="user-profile.html">Vương Bảo Long</a>
-                          </h5>
-                          <div className="stats fs-12 d-flex align-items-center lh-18">
-                            <p className="text-black">Bựa waaa 🤣</p>
-                          </div>
-                        </div>
-                        <small className="meta d-block text-right">
-                          <span className="text-black d-block lh-18">
-                            answered
-                          </span>
-                          <span className="d-block lh-18 fs-12">
-                            8 hours ago
-                          </span>
-                        </small>
-                      </div>
-                    </div>
-                    {/* end media */}
-                  </div>
-                  {/* end question-post-user-action */}
-                  <div className="comments-wrap">
-                    <ul className="comments-list">
-                      <li>
-                        <div className="comment-actions">
-                          <span className="comment-score">1</span>
-                        </div>
-                        <div className="comment-body flex-grow-1">
-                          <div className="media media-card user-media align-items-center p-0 pb-2">
-                            <a
-                              href="user-profile.html"
-                              className="media-img d-block"
-                            >
-                              <img src="images/img4.jpg" alt="avatar" />
-                            </a>
-                            <div className="media-body d-flex align-items-center justify-content-between">
-                              <div>
-                                <h5 className="pb-1">
-                                  <a href="user-profile.html">Phạm Minh Đức</a>
-                                </h5>
-                                <div className="stats fs-12 d-flex align-items-center lh-18">
-                                  <p className="text-black">Bựa bt mà ông 🥱</p>
-                                </div>
-                              </div>
-                              <small className="meta d-block text-right">
-                                <span className="text-black d-block lh-18">
-                                  answered
-                                </span>
-                                <span className="d-block lh-18 fs-12">
-                                  8 hours ago
-                                </span>
-                              </small>
-                            </div>
-                          </div>
-                          {/* end media */}
-                        </div>
-                      </li>
-                      <li>
-                        <div className="comment-actions">
-                          <span className="comment-score">1</span>
-                        </div>
-                        <div className="comment-body flex-grow-1">
-                          <div className="media media-card user-media align-items-center p-0 pb-2">
-                            <a
-                              href="user-profile.html"
-                              className="media-img d-block"
-                            >
-                              <img src="images/img4.jpg" alt="avatar" />
-                            </a>
-                            <div className="media-body d-flex align-items-center justify-content-between">
-                              <div>
-                                <h5 className="pb-1">
-                                  <a href="user-profile.html">Vương Bảo Long</a>
-                                </h5>
-                                <div className="stats fs-12 d-flex align-items-center lh-18">
-                                  <p className="text-black">
-                                    Tôi thấy bựa vkl ý
-                                  </p>
-                                </div>
-                              </div>
-                              <small className="meta d-block text-right">
-                                <span className="text-black d-block lh-18">
-                                  answered
-                                </span>
-                                <span className="d-block lh-18 fs-12">
-                                  8 hours ago
-                                </span>
-                              </small>
-                            </div>
-                          </div>
-                          {/* end media */}
-                        </div>
-                      </li>
-                    </ul>
-                    <div className="comment-form">
-                      <div className="comment-link-wrap text-center">
-                        <a
-                          className="collapse-btn comment-link"
-                          data-toggle="collapse"
-                          href="#addCommentCollapseTwo"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="addCommentCollapseTwo"
-                          title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments."
-                        >
-                          Add a comment
-                        </a>
-                      </div>
-                      <div
-                        className="collapse border-top border-top-gray mt-2 pt-3"
-                        id="addCommentCollapseTwo"
-                      >
-                        <form method="post" className="row pb-3">
-                          <div className="col-lg-12">
-                            <div className="input-box">
-                              <div className="form-group">
-                                <textarea
-                                  className="form-control form--control form-control-sm fs-13"
-                                  name="message"
-                                  rows={5}
-                                  placeholder="Your comment here..."
-                                  defaultValue={""}
-                                />
-                                <div className="d-flex flex-wrap align-items-center pt-2">
-                                  <div className="badge bg-gray border border-gray mr-3 fw-regular fs-13">
-                                    [named hyperlinks] (https://example.com)
-                                  </div>
-                                  <div className="mr-3 fw-bold fs-13">
-                                    **bold**
-                                  </div>
-                                  <div className="mr-3 font-italic fs-13">
-                                    _italic_
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {/* end col-lg-12 */}
-                          <div className="col-lg-12">
-                            <div className="input-box d-flex flex-wrap align-items-center justify-content-between">
-                              <div></div>
-                              <button
-                                className="btn theme-btn theme-btn-sm theme-btn-outline theme-btn-outline-gray"
-                                type="submit"
-                              >
-                                Post Comment
-                              </button>
-                            </div>
-                          </div>
-                          {/* end col-lg-12 */}
-                        </form>
-                      </div>
-                      {/* end collapse */}
-                    </div>
-                  </div>
-                  {/* end comments-wrap */}
-                </div>
-                {/* end answer-body-wrap */}
-              </div>
-              {/* end answer-wrap */}
-              <div className="answer-wrap d-flex">
-                <div className="answer-body-wrap flex-grow-1 pl-0">
-                  <div className="answer-body"></div>
-                  {/* end answer-body */}
-                  <div className="question-post-user-action">
-                    <div className="media media-card user-media align-items-center">
-                      <a href="user-profile.html" className="media-img d-block">
-                        <img src="images/img4.jpg" alt="avatar" />
-                      </a>
-                      <div className="media-body d-flex align-items-center justify-content-between">
-                        <div>
-                          <h5 className="pb-1">
-                            <a href="user-profile.html">Ngô Đạt</a>
-                          </h5>
-                          <div className="stats fs-12 d-flex align-items-center lh-18">
-                            <p className="text-black">Hay đấy</p>
-                          </div>
-                        </div>
-                        <small className="meta d-block text-right">
-                          <span className="text-black d-block lh-18">
-                            answered
-                          </span>
-                          <span className="d-block lh-18 fs-12">
-                            8 hours ago
-                          </span>
-                        </small>
-                      </div>
-                    </div>
-                    {/* end media */}
-                  </div>
-                  {/* end question-post-user-action */}
-                  <div className="comments-wrap">
-                    <ul className="comments-list"></ul>
-                    <div className="comment-form">
-                      <div className="comment-link-wrap text-center">
-                        <a
-                          className="collapse-btn comment-link"
-                          data-toggle="collapse"
-                          href="#addCommentCollapseTwo"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="addCommentCollapseTwo"
-                          title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments."
-                        >
-                          Add a comment
-                        </a>
-                      </div>
-                      <div
-                        className="collapse border-top border-top-gray mt-2 pt-3"
-                        id="addCommentCollapseTwo"
-                      >
-                        <form method="post" className="row pb-3">
-                          <div className="col-lg-12">
-                            <div className="input-box">
-                              <div className="form-group">
-                                <textarea
-                                  className="form-control form--control form-control-sm fs-13"
-                                  name="message"
-                                  rows={5}
-                                  placeholder="Your comment here..."
-                                  defaultValue={""}
-                                />
-                                <div className="d-flex flex-wrap align-items-center pt-2">
-                                  <div className="badge bg-gray border border-gray mr-3 fw-regular fs-13">
-                                    [named hyperlinks] (https://example.com)
-                                  </div>
-                                  <div className="mr-3 fw-bold fs-13">
-                                    **bold**
-                                  </div>
-                                  <div className="mr-3 font-italic fs-13">
-                                    _italic_
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {/* end col-lg-12 */}
-                          <div className="col-lg-12">
-                            <div className="input-box d-flex flex-wrap align-items-center justify-content-between">
-                              <div></div>
-                              <button
-                                className="btn theme-btn theme-btn-sm theme-btn-outline theme-btn-outline-gray"
-                                type="submit"
-                              >
-                                Post Comment
-                              </button>
-                            </div>
-                          </div>
-                          {/* end col-lg-12 */}
-                        </form>
-                      </div>
-                      {/* end collapse */}
-                    </div>
-                  </div>
-                  {/* end comments-wrap */}
-                </div>
-                {/* end answer-body-wrap */}
-              </div>
-              {/* end answer-wrap */}
+              {data &&
+                data.comment.map((cmt) => (
+                  <CaptionDetailComment key={cmt.id} commentData={cmt} />
+                ))}
+              {/* <CaptionDetailComment commentDataId={id} /> */}
               <div className="post-form">
-                <form method="post" className="pt-3">
+                <form method="post" className="pt-3" onSubmit={_handleSubmit}>
                   <div className="input-box">
                     <label className="fs-14 text-black lh-20 fw-medium">
                       Comment
@@ -326,7 +130,8 @@ function CaptionDetailContent() {
                         name="message"
                         rows={6}
                         placeholder="Your answer here..."
-                        defaultValue={"Your answer here..."}
+                        value={comment}
+                        onChange={_handleChange}
                       />
                     </div>
                   </div>

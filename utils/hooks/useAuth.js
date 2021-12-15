@@ -45,9 +45,7 @@ function useAuth() {
   }, []);
   useEffect(() => {
     if (called && data && auth && data.user?.length !== 0) {
-      const userId = data.user?.[0]?.id || null;
-      console.log(data.user);
-      console.log("code run");
+      const userId = data.users?.[0]?.id || null;
       authMutations.setAuth(
         authTemp.userInfo,
         authTemp.idToken,

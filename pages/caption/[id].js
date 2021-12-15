@@ -2,7 +2,9 @@ import React from "react";
 import Head from "next/head";
 import CaptionDetailContent from "../../components/captionDetailContent/CaptionDetailContent";
 import Script from "next/script";
-function CaptionDetail() {
+import { GET_SINGLE_CAPTION } from "../../utils/apollo/entities/caption/operations/caption.queries";
+import { apolloClient } from "../../utils/apollo";
+function CaptionDetail({ data }) {
   return (
     <div>
       <Head>
@@ -20,9 +22,24 @@ function CaptionDetail() {
         {/* Favicon */}
         <link rel="icon" sizes="16x16" href="template/images/favicon.png" />
       </Head>
-      <CaptionDetailContent />
+      <CaptionDetailContent singleCaptionData={data} />
     </div>
   );
 }
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+export const getServerSideProps = async ({ params }) => {
+  const { data } = await apolloClient.query({
+    query: GET_SINGLE_CAPTION,
+    variables: {
+      id: params.id
+    }
+  });
 
+  return {
+    props: {
+      data
+    }
+  };
+};
 export default CaptionDetail;
