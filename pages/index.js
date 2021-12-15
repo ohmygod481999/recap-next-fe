@@ -1,10 +1,12 @@
+import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import Image from "next/image";
 import HomeContentSection from "../components/homeContentSection/HomeContentSection";
 import styles from "../styles/Home.module.css";
+import { apolloClient } from "../utils/apollo";
+import { GET_CAPTIONS } from "../utils/apollo/entities/auth/operations/auth.queries";
 
-
-export default function Home() {
+export default function Home({ data }) {
   return (
     <div className={styles.container}>
       <section className="hero-area pt-80px pb-50px bg-white shadow-sm">
@@ -280,7 +282,23 @@ export default function Home() {
         </div>
         {/* end container */}
       </section>
-      <HomeContentSection />
+      <HomeContentSection captionsData={data} />
     </div>
   );
 }
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+export const getServerSideProps = async (ctx) => {
+  const { data } = await apolloClient.query({
+    query: GET_CAPTIONS,
+    variables: {
+      limit: 10
+    }
+  });
+  return {
+    props: {
+      data
+    }
+  };
+};
