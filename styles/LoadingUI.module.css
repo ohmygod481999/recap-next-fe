@@ -1,0 +1,48 @@
+/* You can remove these code below*/
+.wrapper {
+  margin-top: 25px;
+  justify-content: center;
+  display: flex;
+}
+.doubleLoading {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  text-align: center;
+}
+.doubleLoading .c1 {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #6a5af9;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-radius: 100rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: c1 1s infinite linear;
+}
+.doubleLoading .c2 {
+  width: 50%;
+  height: 50%;
+  border: 3px solid #6a5af9;
+  border-right: 3px solid transparent;
+  border-left: 3px solid transparent;
+  border-radius: 100rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: c2 1s infinite linear;
+}
+@keyframes c1 {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes c2 {
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
