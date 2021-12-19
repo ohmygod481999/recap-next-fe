@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { captionsVar } from "..";
+import { captionsVar, captionDetailVar } from "..";
 
 export const UP_VOTE_MUTATION = gql`
   mutation upVoteMutation($caption_id: uuid, $user_id: uuid) {
@@ -62,3 +62,15 @@ export const REPLY_COMMENT = gql`
     }
   }
 `;
+
+const createSetCaptionDetail = (captionDetailVar) => {
+  return (captionDetail) => {
+      captionDetailVar({
+        ...captionDetail
+      });
+  };
+};
+
+export const captionMutations = {
+  setCaptionDetail: createSetCaptionDetail(captionDetailVar),
+};

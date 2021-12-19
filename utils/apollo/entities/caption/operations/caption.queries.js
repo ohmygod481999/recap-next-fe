@@ -30,6 +30,31 @@ export const GET_SINGLE_CAPTION = gql`
       created_at
       id
       status
+      comments {
+        id
+        content
+        comments {
+          id
+          content
+          user {
+            id
+            user_detail {
+              displayName
+              email
+              photoURL
+            }
+          }
+        }
+        
+          user {
+            id
+            user_detail {
+              displayName
+              email
+              photoURL
+            }
+          }
+      }
       caption_tags {
         tag {
           id
@@ -75,4 +100,37 @@ export const CAPTION_CACHE = gql`
   query {
     captions @client
   }
+`;
+
+export const GET_CAPTION_DETAIL_CACHE = gql`
+    query GetCaptionDetailCache {
+        captionDetail @client {
+          id
+          content
+          comments {
+            id
+            content
+            comments {
+              id
+              content
+              user {
+                id
+                user_detail {
+                  displayName
+                  email
+                  photoURL
+                }
+              }
+            }
+              user {
+                id
+                user_detail {
+                  displayName
+                  email
+                  photoURL
+                }
+              }
+          }
+        }
+    }
 `;

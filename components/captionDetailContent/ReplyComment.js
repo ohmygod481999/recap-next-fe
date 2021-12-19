@@ -5,12 +5,7 @@ import TimeAgo from "../TimeAgo";
 
 function ReplyComment({ data, parentId, fakeReplyData, handleFakeReplyData }) {
   const { content, created_at, user, id } = data;
-  const [fakeData, setFakeData] = useState(fakeReplyData);
-  useEffect(() => {
-    if (fakeReplyData) {
-      setFakeData(fakeReplyData);
-    }
-  }, [fakeReplyData]);
+  
   return (
     <div>
       <li>

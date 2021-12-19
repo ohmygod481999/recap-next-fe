@@ -1,20 +1,12 @@
-import { useMutation, useQuery } from "@apollo/client";
-import React, { useState } from "react";
-import { GET_REPLY_OF_SINGLE_COMMENT } from "../../utils/apollo/entities/caption/operations/caption.queries";
+import React from "react";
 import TimeAgo from "../TimeAgo";
 import FormReplyComment from "./FormReplyComment";
 import ReplyComment from "./ReplyComment";
+
 function CaptionDetailComment({ commentData }) {
-  const [fakeReplyData, setReplyData] = useState([]);
-  const handleFakeReplyData = (data) => setReplyData((prev) => [...prev, data]);
   const { content, created_at, id, user, comments } = commentData;
   const { photoURL, displayName } = user.user_detail;
-  const { data } = useQuery(GET_REPLY_OF_SINGLE_COMMENT, {
-    variables: {
-      parent_comment_id: id
-    },
-    fetchPolicy: "cache-and-network"
-  });
+  
   return (
     <>
       <div className="answer-wrap d-flex">
@@ -49,28 +41,16 @@ function CaptionDetailComment({ commentData }) {
 
           <div className="comments-wrap">
             <ul className="comments-list">
-              {data &&
-                data.comment.map((cmt) => (
+              {comments &&
+                comments.map((cmt) => (
                   <ReplyComment
                     key={cmt.id}
                     data={cmt}
                     parentId={id}
-                    fakeReplyData={fakeReplyData}
-                    handleFakeReplyData={handleFakeReplyData}
-                  />
-                ))}
-              {fakeReplyData &&
-                fakeReplyData.map((data, index) => (
-                  <ReplyComment
-                    key={data.id + index + 1}
-                    data={data}
-                    parentId={id}
-                    fakeReplyData={fakeReplyData}
-                    handleFakeReplyData={handleFakeReplyData}
                   />
                 ))}
             </ul>
-            <FormReplyComment dataId={id} getFakeData={handleFakeReplyData} />
+            <FormReplyComment dataId={id} />
           </div>
           {/* end comments-wrap */}
         </div>

@@ -1,5 +1,6 @@
 /* You can remove these code below*/
 .wrapper {
+  margin-top: 25px;
   justify-content: center;
   display: flex;
 }
