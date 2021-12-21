@@ -13,7 +13,7 @@ export const GET_CAPTIONS = gql`
         }
         vote_number
         comments {
-          caption_id
+          id
         }
         author {
           display_name
@@ -37,6 +37,10 @@ export const GET_SINGLE_CAPTION = gql`
       comments {
         id
         content
+        votings {
+          id
+          user_id
+        }
         comments {
           id
           content
@@ -117,6 +121,10 @@ export const GET_CAPTION_DETAIL_CACHE = gql`
         comments {
           id
           content
+          votings {
+            id
+            user_id
+          }
           user {
             id
             user_detail {

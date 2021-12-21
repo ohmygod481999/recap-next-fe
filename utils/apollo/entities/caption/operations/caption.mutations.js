@@ -87,6 +87,22 @@ export const ADD_TAGS = gql`
     }
   }
 `;
+export const UP_VOTE_COMMENT = gql`
+  mutation upVoteComment($comment_id: uuid, $user_id: uuid) {
+    insert_voting(objects: { comment_id: $comment_id, user_id: $user_id }) {
+      affected_rows
+    }
+  }
+`;
+export const DELETE_VOTE_COMMENT = gql`
+  mutation deleteVoteComment($user_id: uuid, $comment_id: uuid) {
+    delete_voting(
+      where: { user_id: { _eq: $user_id }, comment_id: { _eq: $comment_id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
 const createSetCaptionDetail = (captionDetailVar) => {
   return (captionDetail) => {
     captionDetailVar({

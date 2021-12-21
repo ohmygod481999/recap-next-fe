@@ -16,7 +16,7 @@ function CaptionDetailContent({ singleCaptionData }) {
   const { caption_tags, content, created_at, id } = caption_by_pk;
   const authCacheData = useReactiveVar(authVar);
   const captionDetailCache = useReactiveVar(captionDetailVar);
-
+  console.log(captionDetailCache);
   const [comment, setCommentData] = useState("");
   const { data, loading, error } = useQuery(GET_RELATED_CAPTIONS, {
     variables: {
@@ -74,8 +74,11 @@ function CaptionDetailContent({ singleCaptionData }) {
     console.log(data);
   }
   return (
-    <section className="question-area pt-40px pb-40px">
-      <div className="container">
+    <section
+      className="question-area pt-40px pb-40px"
+      style={{ width: "100vw" }}
+    >
+      <div className="container" style={{ width: "100vw" }}>
         <div className="row">
           <div className="col-lg-9">
             <div className="question-main-bar mb-50px">
@@ -302,11 +305,11 @@ function CaptionDetailContent({ singleCaptionData }) {
                 </div>
               </div>
               {/* end card */}
-              <div className="ad-card">
+              <div className="ad-card" style={{ overflow: "hidden" }}>
                 <h4 className="text-gray text-uppercase fs-13 pb-3 text-center">
                   Advertisements
                 </h4>
-                <div className="ad-banner mb-4 mx-auto">
+                <div className="ad-banner ">
                   <span className="ad-text">290x500</span>
                 </div>
               </div>
