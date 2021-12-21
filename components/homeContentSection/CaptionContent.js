@@ -11,12 +11,20 @@ import { GET_CAPTIONS } from "../../utils/apollo/entities/caption/operations/cap
 import { captionsVar } from "../../utils/apollo/entities/caption";
 import Link from "next/link";
 function CaptionContent({ captionsData, handleRefetch }) {
-  const { content, created_at, caption_tags, comments, votings, id } =
-    captionsData;
+  const {
+    content,
+    created_at,
+    tag,
+    comments,
+    votings,
+    id,
+    vote_number,
+    author
+  } = captionsData;
   const authDataCache = useReactiveVar(authVar);
   const router = useRouter();
   const [active, setActive] = useState(false);
-  const [dataUpVote, setDataUpVote] = useState(votings?.length);
+  const [dataUpVote, setDataUpVote] = useState(votings?.length || vote_number);
   const [upVote, resultMutation] = useMutation(UP_VOTE_MUTATION);
   const [disUpVote, { data }] = useMutation(DELETE_VOTE_MUTATION);
   const _handleClassActiveUpVote = () => {
@@ -34,7 +42,6 @@ function CaptionContent({ captionsData, handleRefetch }) {
       setDataUpVote((prev) => prev + 1);
       setActive(!active);
     } else {
-      console.log("dis - upvote");
       disUpVote({
         variables: {
           user_id: authDataCache.id,
@@ -52,13 +59,13 @@ function CaptionContent({ captionsData, handleRefetch }) {
       router.push(`/caption/${id}`);
     }
   };
-  useEffect(() => {
-    if (authDataCache) {
-      setActive(() => {
-        return votings.some((voting) => voting.user_id === authDataCache.id);
-      });
-    }
-  }, [authDataCache]);
+  // useEffect(() => {
+  //   if (authDataCache) {
+  //     setActive(() => {
+  //       return votings.some((voting) => voting.user_id === authDataCache.id);
+  //     });
+  //   }
+  // }, [authDataCache]);
   return (
     <div className="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
       <div className="votes text-center votes-2">
@@ -68,7 +75,7 @@ function CaptionContent({ captionsData, handleRefetch }) {
           onClick={_handleClassActiveUpVote}
         >
           <span className="vote-counts d-block text-center pr-0 lh-20 fw-medium">
-            {dataUpVote}
+            {dataUpVote || vote_number}
           </span>
           <span className="vote-text d-block fs-13 lh-18">votes</span>
         </div>
@@ -94,9 +101,10 @@ function CaptionContent({ captionsData, handleRefetch }) {
           </Link>
         </h5>
         <p className="mb-2 truncate lh-20 fs-15"></p>
+        <p className="mb-2 truncate lh-20 fs-15"></p>
         <div className="tags">
-          {caption_tags.map((tag) => {
-            const { id, name } = tag.tag;
+          {tag.map((tagChild) => {
+            const { id, name } = tagChild;
             return (
               <a key={id} href="#" className="tag-link">
                 {name}
@@ -106,12 +114,17 @@ function CaptionContent({ captionsData, handleRefetch }) {
         </div>
         <div className="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
           <a href="user-profile.html" className="media-img d-block">
-            <img src="images/img3.jpg" alt="avatar" />
+            <img
+              src={author.photo_url ? author.photo_url : "images/img3.jpg"}
+              alt="avatar"
+            />
           </a>
           <div className="media-body d-flex flex-wrap align-items-center justify-content-between">
             <div>
               <h5 className="pb-1">
-                <a href="user-profile.html">Arden Smith</a>
+                <a href="user-profile.html">
+                  {author.display_name ? author.display_name : author.email}
+                </a>
               </h5>
               <div className="stats fs-12 d-flex align-items-center lh-18">
                 <span className="text-black pr-2" title="Reputation score">

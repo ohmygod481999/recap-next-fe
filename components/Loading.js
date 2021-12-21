@@ -10,5 +10,23 @@ function Loading() {
     </div>
   );
 }
+export const ModalLoading = (styleBackGround) => {
+  return (
+    <div id="preloader" style={{ backgroundColor: "#ffffff3d" }}>
+      <div className="loader">
+        <svg className="spinner">
+          <circle
+            className="path"
+            cx={25}
+            cy={25}
+            r={20}
+            fill="none"
+            strokeWidth={5}
+          />
+        </svg>
+      </div>
+    </div>
+  );
+};
 
 export default Loading;

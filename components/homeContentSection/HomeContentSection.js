@@ -8,31 +8,26 @@ import { GET_CAPTIONS } from "../../utils/apollo/entities/caption/operations/cap
 import { captionsVar } from "../../utils/apollo/entities/caption";
 function HomeContentSection() {
   const captionsDataCache = useReactiveVar(captionsVar);
-  const { caption } = captionsDataCache;
+  const { data } = captionsDataCache.getNewFeed;
   const [limit, setLimit] = useState(20);
   const [hasMore, setHasMore] = useState(true);
-  const [loadMoreCaption, { data, refetch }] = useLazyQuery(GET_CAPTIONS, {
-    variables: { limit: limit }
+  const [loadMoreCaption, result] = useLazyQuery(GET_CAPTIONS, {
+    variables: { limit: limit, offset: 0 }
   });
 
   const fetchMoreData = () => {
-    if (caption.length >= 500) {
+    if (data.length >= 500) {
       setHasMore(false);
       return false;
     }
     loadMoreCaption();
     setLimit((prev) => prev + 10);
   };
-  const handleRefetch = () => {
-    refetch({
-      limit: limit + 1
-    });
-  };
   useEffect(() => {
-    if (data && limit <= 490) {
-      captionsVar(data);
+    if (result?.data && limit <= 490) {
+      captionsVar(result.data);
     }
-  }, [data, captionsDataCache]);
+  }, [result.data]);
   return (
     <section className="question-area pt-80px pb-30px">
       <div className="container">
@@ -61,7 +56,7 @@ function HomeContentSection() {
               {/* end filters */}
               <div className="questions-snippet border-top border-top-gray">
                 <InfiniteScroll
-                  dataLength={caption.length}
+                  dataLength={data.length}
                   next={fetchMoreData}
                   hasMore={hasMore}
                   loader={<Loading />}
@@ -72,12 +67,8 @@ function HomeContentSection() {
                     </p>
                   }
                 >
-                  {caption.map((cap) => (
-                    <CaptionContent
-                      key={cap.id}
-                      captionsData={cap}
-                      handleRefetch={refetch}
-                    />
+                  {data.map((cap) => (
+                    <CaptionContent key={cap.id} captionsData={cap} />
                   ))}
                 </InfiniteScroll>
               </div>
@@ -293,14 +284,7 @@ function HomeContentSection() {
                 </div>
               </div>
               {/* end card */}
-              <div className="ad-card">
-                <h4 className="text-gray text-uppercase fs-13 pb-3 text-center">
-                  Advertisements
-                </h4>
-                <div className="ad-banner mb-4 mx-auto">
-                  <span className="ad-text">290x500</span>
-                </div>
-              </div>
+
               {/* end ad-card */}
             </div>
             {/* end sidebar */}

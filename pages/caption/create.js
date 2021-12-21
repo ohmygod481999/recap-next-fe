@@ -1,8 +1,11 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import UploadCaption from "../../components/uploadCaption/UploadCaption";
-function Create() {
+import { GET_TAGS } from "../../utils/apollo/entities/caption/operations/caption.queries";
+import { apolloClient } from "../../utils/apollo";
+function Create({ data }) {
   return (
-    <div>
+    <div style={{ width: "100vw" }}>
       <section className="hero-area bg-white shadow-sm overflow-hidden">
         <span className="stroke-shape stroke-shape-1" />
         <span className="stroke-shape stroke-shape-2" />
@@ -188,9 +191,19 @@ function Create() {
         </div>
         {/* end container */}
       </section>
-      <UploadCaption />
+      <UploadCaption tagsData={data} />
     </div>
   );
 }
+export const getServerSideProps = async (ctx) => {
+  const { data } = await apolloClient.query({
+    query: GET_TAGS
+  });
 
+  return {
+    props: {
+      data
+    }
+  };
+};
 export default Create;

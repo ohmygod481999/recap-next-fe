@@ -7,9 +7,9 @@ import { apolloClient } from "../../utils/apollo";
 import { captionMutations } from "../../utils/apollo/entities/caption/operations/caption.mutations";
 function CaptionDetail({ data }) {
   useEffect(() => {
-    const {caption_by_pk} = data
-    captionMutations.setCaptionDetail(caption_by_pk)
-  }, [])
+    const { caption_by_pk } = data;
+    captionMutations.setCaptionDetail(caption_by_pk);
+  }, []);
   return (
     <div>
       <Head>

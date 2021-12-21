@@ -62,15 +62,39 @@ export const REPLY_COMMENT = gql`
     }
   }
 `;
-
+export const CREATE_CAPTION = gql`
+  mutation createCaption(
+    $author_id: uuid!
+    $content: String
+    $category_id: uuid!
+  ) {
+    insert_caption_one(
+      object: {
+        author_id: $author_id
+        category_id: $category_id
+        content: $content
+        status: 0
+      }
+    ) {
+      id
+    }
+  }
+`;
+export const ADD_TAGS = gql`
+  mutation addTags($objects: [caption_tag_insert_input]!) {
+    insert_caption_tag(objects: $objects) {
+      affected_rows
+    }
+  }
+`;
 const createSetCaptionDetail = (captionDetailVar) => {
   return (captionDetail) => {
-      captionDetailVar({
-        ...captionDetail
-      });
+    captionDetailVar({
+      ...captionDetail
+    });
   };
 };
 
 export const captionMutations = {
-  setCaptionDetail: createSetCaptionDetail(captionDetailVar),
+  setCaptionDetail: createSetCaptionDetail(captionDetailVar)
 };

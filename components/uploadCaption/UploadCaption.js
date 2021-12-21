@@ -1,13 +1,83 @@
-import React from "react";
+import { useMutation, useReactiveVar } from "@apollo/client";
+import Router, { useRouter } from "next/router";
+import React, { useEffect, useState, useRef } from "react";
+import { authVar } from "../../utils/apollo/entities/auth";
+import { Controller, useForm } from "react-hook-form";
+import {
+  ADD_TAGS,
+  CREATE_CAPTION
+} from "../../utils/apollo/entities/caption/operations/caption.mutations";
+import Select from "react-select";
+import { ModalLoading } from "../Loading";
+function UploadCaption({ tagsData }) {
+  const authCahe = useReactiveVar(authVar);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [creatCaption, result] = useMutation(CREATE_CAPTION);
+  const [addTags, reusltAddTags] = useMutation(ADD_TAGS);
+  const [tagDataCommit, setTagDataCommit] = useState("");
+  const fomatTagsData = tagsData.tag.map((t) => ({
+    id: t.id,
+    value: t.name,
+    label: t.name
+  }));
+  const [tags, setTags] = useState(fomatTagsData);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+    control
+  } = useForm();
+  const _handleSubmit = (data, e) => {
+    e.preventDefault();
+    if (!authCahe.isLoggedIn) return router.push("/login");
+    setLoading(true);
+    setTagDataCommit(data.tags.map((tag) => ({ tag_id: tag.id })));
+    creatCaption({
+      variables: {
+        content: data.content,
+        author_id: authCahe.id,
+        category_id: "c968380b-d6ba-4342-9520-3c8554453395"
+      }
+    });
+  };
+  useEffect(() => {
+    if (reusltAddTags.data) {
+      reset();
+      setLoading(false);
+    }
+  }, [reusltAddTags.data]);
+  useEffect(() => {
+    if (result.data) {
+      const formatData = tagDataCommit.map((data) => ({
+        caption_id: result.data.insert_caption_one.id,
+        ...data
+      }));
+      addTags({
+        variables: {
+          objects: formatData
+        }
+      });
+      router.push("/");
+    }
+  }, [result.data]);
 
-function UploadCaption() {
   return (
     <section className="question-area pt-80px pb-40px">
+      {reusltAddTags.loading && (
+        <ModalLoading styleBackGround={{ backgroundColor: "#ffffff3d" }} />
+      )}
       <div className="container">
         <div className="row">
           <div className="col-lg-8">
             <div className="card card-item">
-              <form method="post" className="card-body">
+              <form
+                method="post"
+                className="card-body"
+                onSubmit={handleSubmit(_handleSubmit)}
+              >
                 <div className="input-box">
                   <div className="d-flex align-items-center justify-content-between">
                     <div>
@@ -88,37 +158,34 @@ function UploadCaption() {
                     {/* end generic-popover */}
                   </div>
                   <div className="form-group">
-                    <input
-                      className="input-tags input--tags"
-                      type="text"
+                    <Controller
+                      control={control}
                       name="tags"
-                      placeholder="e.g. javascript"
+                      render={({ field: { onChange, ref } }) => (
+                        <Select
+                          {...register("tags", {
+                            required: true
+                          })}
+                          defaultValue="Chọn các tags"
+                          isMulti
+                          name="tags"
+                          options={tags}
+                          className="basic-multi-select"
+                          classNamePrefix="select"
+                          onChange={onChange}
+                          ref={ref}
+                        />
+                      )}
                     />
+                    {errors.tags?.type === "required" && (
+                      <span className="text-danger">
+                        This field is required
+                      </span>
+                    )}
                   </div>
                 </div>
                 {/* end input-box */}
-                <div className="input-box">
-                  <label className="fs-14 text-black fw-medium mb-0">
-                    Phân loại
-                  </label>
-                  <p className="fs-13 pb-3 lh-20">
-                    Please choose the appropriate section so the question can be
-                    searched easily.
-                  </p>
-                  <div className="form-group">
-                    <select
-                      className="select-container select--container"
-                      data-placeholder="Select a Category"
-                    >
-                      <option selected value>
-                        Select a Category
-                      </option>
-                      <option value={1}>Caption</option>
-                      <option value={2}>Thả thính</option>
-                      <option value={3}>Lời chúc</option>
-                    </select>
-                  </div>
-                </div>
+
                 {/* end input-box */}
                 <div className="input-box">
                   <label className="fs-14 text-black fw-medium mb-0">
@@ -130,11 +197,19 @@ function UploadCaption() {
                   </p>
                   <div className="form-group">
                     <textarea
+                      {...register("content", {
+                        required: true
+                      })}
                       className="form-control form--control"
                       rows={4}
                       cols={40}
                       defaultValue={""}
                     />
+                    {errors.content?.type === "required" && (
+                      <span className="text-danger">
+                        This field is required
+                      </span>
+                    )}
                   </div>
                 </div>
                 {/* end input-box */}
@@ -156,7 +231,11 @@ function UploadCaption() {
                     </div>
                   </div>
                   <div className="btn-box">
-                    <button type="submit" className="btn theme-btn">
+                    <button
+                      type="submit"
+                      className={`btn theme-btn ${loading && "disabled"}`}
+                      onSubmit={handleSubmit(_handleSubmit)}
+                    >
                       Đăng caption
                     </button>
                   </div>
@@ -165,7 +244,6 @@ function UploadCaption() {
             </div>
             {/* end card */}
           </div>
-          {/* end col-lg-8 */}
           <div className="col-lg-4">
             <div className="sidebar">
               <div className="card card-item p-4">
@@ -288,11 +366,8 @@ function UploadCaption() {
             </div>
             {/* end sidebar */}
           </div>
-          {/* end col-lg-4 */}
         </div>
-        {/* end row */}
       </div>
-      {/* end container */}
     </section>
   );
 }

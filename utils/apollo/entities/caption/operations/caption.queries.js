@@ -1,23 +1,27 @@
 import { gql } from "@apollo/client";
 
 export const GET_CAPTIONS = gql`
-  query getCaptions($limit: Int, $offset: Int) {
-    caption(limit: $limit, offset: $offset) {
-      content
-      id
-      created_at
-      status
-      comments {
+  query getCaptions($limit: Int!, $offset: Int!) {
+    getNewFeed(limit: $limit, offset: $offset) {
+      data {
         id
-      }
-      votings {
-        id
-        user_id
-      }
-      caption_tags {
+        content
+        created_at
         tag {
-          name
           id
+          name
+        }
+        vote_number
+        comments {
+          caption_id
+        }
+        author {
+          display_name
+          photo_url
+          custom_claims {
+            isAdmin
+          }
+          email
         }
       }
     }
@@ -45,15 +49,15 @@ export const GET_SINGLE_CAPTION = gql`
             }
           }
         }
-        
-          user {
-            id
-            user_detail {
-              displayName
-              email
-              photoURL
-            }
+
+        user {
+          id
+          user_detail {
+            displayName
+            email
+            photoURL
           }
+        }
       }
       caption_tags {
         tag {
@@ -103,34 +107,58 @@ export const CAPTION_CACHE = gql`
 `;
 
 export const GET_CAPTION_DETAIL_CACHE = gql`
-    query GetCaptionDetailCache {
-        captionDetail @client {
+  query GetCaptionDetailCache {
+    captionDetail @client {
+      id
+      content
+      comments {
+        id
+        content
+        comments {
           id
           content
-          comments {
+          user {
             id
-            content
-            comments {
-              id
-              content
-              user {
-                id
-                user_detail {
-                  displayName
-                  email
-                  photoURL
-                }
-              }
+            user_detail {
+              displayName
+              email
+              photoURL
             }
-              user {
-                id
-                user_detail {
-                  displayName
-                  email
-                  photoURL
-                }
-              }
           }
         }
+        user {
+          id
+          user_detail {
+            displayName
+            email
+            photoURL
+          }
+        }
+      }
     }
+  }
+`;
+export const GET_RELATED_CAPTIONS = gql`
+  query relatedCaptions($id: ID!) {
+    relatedCaptions(id: $id) {
+      data {
+        author {
+          display_name
+          email
+          photo_url
+        }
+        content
+        created_at
+        id
+      }
+    }
+  }
+`;
+export const GET_TAGS = gql`
+  query getTags {
+    tag {
+      id
+      name
+    }
+  }
 `;

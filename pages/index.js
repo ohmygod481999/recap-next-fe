@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 import HomeContentSection from "../components/homeContentSection/HomeContentSection";
 import styles from "../styles/Home.module.css";
@@ -9,8 +10,6 @@ import { captionsVar } from "../utils/apollo/entities/caption";
 import { GET_CAPTIONS } from "../utils/apollo/entities/caption/operations/caption.queries";
 
 export default function Home({ data }) {
-  // const [data1 , error, loading] = useQuery(GET_CAPTIONS)
-  // useEffect
   captionsVar(data);
   return (
     <div className={styles.container}>
@@ -197,10 +196,16 @@ export default function Home({ data }) {
                 </g>
               </svg>
               <div className="media-body">
-                <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
-                  Đăng captions
-                </h5>
-                <p className="fs-15 lh-20">Spend five minutes feeling smart.</p>
+                <Link href={"/caption/create"}>
+                  <a>
+                    <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
+                      Đăng captions
+                    </h5>
+                    <p className="fs-15 lh-20">
+                      Spend five minutes feeling smart.
+                    </p>
+                  </a>
+                </Link>
               </div>
             </div>
             {/* end media */}
@@ -298,7 +303,8 @@ export const getServerSideProps = async (ctx) => {
   const { data } = await apolloClient.query({
     query: GET_CAPTIONS,
     variables: {
-      limit: 10
+      limit: 10,
+      offset: 0
     }
   });
 
