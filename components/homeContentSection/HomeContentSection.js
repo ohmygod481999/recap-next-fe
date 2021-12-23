@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import CaptionContent from "./CaptionContent";
-import { useLazyQuery, useReactiveVar } from "@apollo/client";
+import { useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "../Loading";
 import { GET_CAPTIONS } from "../../utils/apollo/entities/caption/operations/caption.queries";
 import { captionsVar } from "../../utils/apollo/entities/caption";
+import { GET_TAGS } from "../../utils/apollo/entities/tag/operations/tag.queries";
 function HomeContentSection() {
   const captionsDataCache = useReactiveVar(captionsVar);
   const { data } = captionsDataCache.getNewFeed;
   const [limit, setLimit] = useState(20);
   const [hasMore, setHasMore] = useState(true);
+  const tagQuery = useQuery(GET_TAGS)
+  const allTags = tagQuery.data ? tagQuery.data.tag : []
+  console.log(tagQuery)
+  console.log(data)
   const [loadMoreCaption, result] = useLazyQuery(GET_CAPTIONS, {
     variables: { limit: limit, offset: 0 }
   });
@@ -78,208 +83,28 @@ function HomeContentSection() {
           {/* end col-lg-7 */}
           <div className="col-lg-3">
             <div className="sidebar">
-              <div className="card card-item">
-                <div className="card-body">
-                  <h3 className="fs-17 pb-3">Related Questions</h3>
-                  <div className="divider">
-                    <span />
-                  </div>
-                  <div className="sidebar-questions pt-3">
-                    <div className="media media-card media--card media--card-2">
-                      <div className="media-body">
-                        <h5>
-                          <a href="question-details.html">
-                            Using web3 to call precompile contract
-                          </a>
-                        </h5>
-                        <small className="meta">
-                          <span className="pr-1">2 mins ago</span>
-                          <span className="pr-1">. by</span>
-                          <a href="#" className="author">
-                            Sudhir Kumbhare
-                          </a>
-                        </small>
-                      </div>
-                    </div>
-                    {/* end media */}
-                    <div className="media media-card media--card media--card-2">
-                      <div className="media-body">
-                        <h5>
-                          <a href="question-details.html">
-                            Is it true while finding Time Complexity of the
-                            algorithm [closed]
-                          </a>
-                        </h5>
-                        <small className="meta">
-                          <span className="pr-1">48 mins ago</span>
-                          <span className="pr-1">. by</span>
-                          <a href="#" className="author">
-                            wimax
-                          </a>
-                        </small>
-                      </div>
-                    </div>
-                    {/* end media */}
-                    <div className="media media-card media--card media--card-2">
-                      <div className="media-body">
-                        <h5>
-                          <a href="question-details.html">
-                            image picker and store them into firebase with
-                            flutter
-                          </a>
-                        </h5>
-                        <small className="meta">
-                          <span className="pr-1">1 hour ago</span>
-                          <span className="pr-1">. by</span>
-                          <a href="#" className="author">
-                            Antonin gavrel
-                          </a>
-                        </small>
-                      </div>
-                    </div>
-                    {/* end media */}
-                  </div>
-                  {/* end sidebar-questions */}
-                </div>
-              </div>
+              
               {/* end card */}
               <div className="card card-item">
                 <div className="card-body">
-                  <h3 className="fs-17 pb-3">Related Tags</h3>
+                  <h3 className="fs-17 pb-3">Tags</h3>
                   <div className="divider">
                     <span />
                   </div>
                   <div className="tags pt-4">
+                    {allTags.map(tag => (
                     <div className="tag-item">
-                      <a href="#" className="tag-link tag-link-md">
-                        analytics
+                      <a href="#" className="tag-link tag-link-md" onClick={e => e.preventDefault()}>
+                        {tag.name}
                       </a>
                       <span className="item-multiplier fs-13">
                         <span>×</span>
-                        <span>32924</span>
+                        <span>{Math.floor(Math.random() * 1000)}</span>
                       </span>
                     </div>
+                    ))}
                     {/* end tag-item */}
-                    <div className="tag-item">
-                      <a href="#" className="tag-link tag-link-md">
-                        computer
-                      </a>
-                      <span className="item-multiplier fs-13">
-                        <span>×</span>
-                        <span>32924</span>
-                      </span>
-                    </div>
-                    {/* end tag-item */}
-                    <div className="tag-item">
-                      <a href="#" className="tag-link tag-link-md">
-                        python
-                      </a>
-                      <span className="item-multiplier fs-13">
-                        <span>×</span>
-                        <span>32924</span>
-                      </span>
-                    </div>
-                    {/* end tag-item */}
-                    <div className="tag-item">
-                      <a href="#" className="tag-link tag-link-md">
-                        javascript
-                      </a>
-                      <span className="item-multiplier fs-13">
-                        <span>×</span>
-                        <span>32924</span>
-                      </span>
-                    </div>
-                    {/* end tag-item */}
-                    <div className="tag-item">
-                      <a href="#" className="tag-link tag-link-md">
-                        c#
-                      </a>
-                      <span className="item-multiplier fs-13">
-                        <span>×</span>
-                        <span>32924</span>
-                      </span>
-                    </div>
-                    {/* end tag-item */}
-                    <div className="collapse" id="showMoreTags">
-                      <div className="tag-item">
-                        <a href="#" className="tag-link tag-link-md">
-                          java
-                        </a>
-                        <span className="item-multiplier fs-13">
-                          <span>×</span>
-                          <span>32924</span>
-                        </span>
-                      </div>
-                      {/* end tag-item */}
-                      <div className="tag-item">
-                        <a href="#" className="tag-link tag-link-md">
-                          swift
-                        </a>
-                        <span className="item-multiplier fs-13">
-                          <span>×</span>
-                          <span>32924</span>
-                        </span>
-                      </div>
-                      {/* end tag-item */}
-                      <div className="tag-item">
-                        <a href="#" className="tag-link tag-link-md">
-                          html
-                        </a>
-                        <span className="item-multiplier fs-13">
-                          <span>×</span>
-                          <span>32924</span>
-                        </span>
-                      </div>
-                      {/* end tag-item */}
-                      <div className="tag-item">
-                        <a href="#" className="tag-link tag-link-md">
-                          angular
-                        </a>
-                        <span className="item-multiplier fs-13">
-                          <span>×</span>
-                          <span>32924</span>
-                        </span>
-                      </div>
-                      {/* end tag-item */}
-                      <div className="tag-item">
-                        <a href="#" className="tag-link tag-link-md">
-                          flutter
-                        </a>
-                        <span className="item-multiplier fs-13">
-                          <span>×</span>
-                          <span>32924</span>
-                        </span>
-                      </div>
-                      {/* end tag-item */}
-                      <div className="tag-item">
-                        <a href="#" className="tag-link tag-link-md">
-                          machine-language
-                        </a>
-                        <span className="item-multiplier fs-13">
-                          <span>×</span>
-                          <span>32924</span>
-                        </span>
-                      </div>
-                      {/* end tag-item */}
-                    </div>
-                    {/* end collapse */}
-                    <a
-                      className="collapse-btn fs-13"
-                      data-toggle="collapse"
-                      href="#showMoreTags"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="showMoreTags"
-                    >
-                      <span className="collapse-btn-hide">
-                        Show more
-                        <i className="la la-angle-down ml-1 fs-11" />
-                      </span>
-                      <span className="collapse-btn-show">
-                        Show less
-                        <i className="la la-angle-up ml-1 fs-11" />
-                      </span>
-                    </a>
+                    
                   </div>
                 </div>
               </div>

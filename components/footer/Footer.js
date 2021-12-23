@@ -13,7 +13,7 @@ function Footer() {
             <div className="footer-item">
               <a href="index.html" className="d-inline-block">
                 <img
-                  src={getDomain("/images/logo-black.png")}
+                  src={("/images/recap-rec.png")}
                   alt="footer logo"
                   className="footer-logo"
                 />
@@ -171,7 +171,7 @@ function Footer() {
         <div className="row align-items-center pb-4 copyright-wrap">
           <div className="col-lg-6">
             <p className="copyright-desc copyright--desc fs-14">
-              Copyright © 2021 <a href="https://techydevs.com/">TechyDevs</a>{" "}
+              Copyright © 2021 <a href="https://www.facebook.com/profile.php?id=100009515692070">Recap</a>{" "}
               Inc.
             </p>
           </div>
