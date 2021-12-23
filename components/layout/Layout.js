@@ -25,8 +25,8 @@ function Layout({ children }) {
 
       <Header />
       {children}
-      <RunToTop />
       <Footer />
+      <RunToTop />
     </div>
   );
 }

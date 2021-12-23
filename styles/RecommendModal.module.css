@@ -1,0 +1,36 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+}
+.wrapperImage {
+  width: 14%;
+}
+.image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+}
+.mainImage {
+  width: 100%;
+  height: 100%;
+}
+.imageContent {
+  width: 100%;
+  object-fit: cover;
+}
+.caption {
+}
+.feature {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-top: 0.3rem;
+}
+.feature_child {
+  width: calc(100% / 3 - 2%);
+  cursor: pointer;
+  font-weight: 500;
+}
+.feature_child span {
+}
