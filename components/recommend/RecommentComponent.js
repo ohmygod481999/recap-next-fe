@@ -24,6 +24,8 @@ function RecommentComponent() {
     const formData = new FormData();
     formData.append("file", selectedImage);
     formData.append("num_cap", 5);
+    document.getElementById("recommend-captions").scrollIntoView({behavior: "smooth"});
+    setResultData(null)
     try {
       setStatusCaption((prev) => ({
         ...prev,
@@ -82,7 +84,7 @@ function RecommentComponent() {
             </div>
             {/* end col-lg-8 */}
             <div className="col-lg-4">
-              <div className="hero-btn-box text-right py-3">
+              {/* <div className="hero-btn-box text-right py-3">
                 <a
                   href="user-profile.html"
                   className="btn theme-btn theme-btn-outline theme-btn-outline-gray"
@@ -90,7 +92,7 @@ function RecommentComponent() {
                   <i className="la la-user mr-1" />
                   View Profile
                 </a>
-              </div>
+              </div> */}
             </div>
             {/* end col-lg-4 */}
           </div>
@@ -125,7 +127,7 @@ function RecommentComponent() {
 ================================= */}
       <section className="user-details-area pt-40px pb-40px">
         <div className="container">
-          <div className="row">
+          <div className={`row ${!resultData && "justify-content-center"}`}>
             <div className="col-lg-8">
               <div className="tab-content mb-50px" id="myTabContent">
                 <div
@@ -154,24 +156,27 @@ function RecommentComponent() {
                           <div className="divider">
                             <span />
                           </div>
-                          <div className="row pt-4 align-items-center mb-5">
+                          <div className="row pt-4  mb-5">
                             <div className="col-lg-6">
-                              <div className="edit-profile-photo d-flex flex-wrap align-items-center">
+                              <div className="edit-profile-photo d-flex flex-wrap align-items-center mt-1">
+                              {selectedImage && (
                                 <div style={{ width: "100%", height: "100%" }}>
-                                  <img
-                                    src={
-                                      (selectedImage &&
-                                        URL?.createObjectURL(selectedImage)) ||
-                                      "images/team.jpg"
-                                    }
-                                    alt="user avatar"
-                                    className="profile-img"
-                                    style={{
-                                      width: "100%",
-                                      objectFit: "cover"
-                                    }}
-                                  />
+                                 
+                                    <img
+                                      src={
+                                        (selectedImage &&
+                                          URL?.createObjectURL(selectedImage)) ||
+                                        "images/team.jpg"
+                                      }
+                                      alt="user avatar"
+                                      className="profile-img"
+                                      style={{
+                                        width: "100%",
+                                        objectFit: "cover"
+                                      }}
+                                    />
                                 </div>
+                              )}
                                 <div className="mt-4" style={{ width: "100%" }}>
                                   <div
                                     className="file-upload-wrap file--upload-wrap"
@@ -213,7 +218,7 @@ function RecommentComponent() {
                                 <div className="form-group">
                                   <input
                                     {...register("name", {
-                                      required: true
+                                      // required: true
                                     })}
                                     className="form-control form--control"
                                     type="text"
@@ -246,7 +251,7 @@ function RecommentComponent() {
                         </div>
                         {/* end settings-item */}
                         <div className="settings-item">
-                          <h4 className="fs-14 pb-2 text-gray text-uppercase">
+                          <h4 id="recommend-captions" className="fs-14 pb-2 text-gray text-uppercase">
                             Captions cho bạn
                           </h4>
                           <div className="divider">
@@ -258,6 +263,7 @@ function RecommentComponent() {
                                 <thead>
                                   <tr>
                                     <th scope="col">Caption</th>
+                                    <th scope="col">Point</th>
                                     <th scope="col">Tags</th>
                                     <th scope="col">Action</th>
                                   </tr>
@@ -265,8 +271,7 @@ function RecommentComponent() {
                                 {statusCaption.loading && (
                                   <tbody>
                                     <tr>
-                                      <th></th>
-                                      <th>
+                                      <th colSpan={10}>
                                         <div
                                           style={{
                                             width: "100%",
@@ -277,11 +282,10 @@ function RecommentComponent() {
                                           <Loading />
                                         </div>
                                       </th>
-                                      <th></th>
                                     </tr>
                                   </tbody>
                                 )}
-                                {statusCaption.result &&
+                                { !statusCaption.loading && statusCaption.result &&
                                   statusCaption.result.map((caption) => {
                                     return (
                                       <tbody key={caption.id}>
@@ -304,6 +308,11 @@ function RecommentComponent() {
                                           </th>
                                           <td>
                                             <div className="tags">
+                                              {Math.round(caption.point * 100) / 100}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="tags">
                                               {caption.tags.map((tag) => (
                                                 <Link key={tag.id} href={"#"}>
                                                   <a className="tag-link">
@@ -311,15 +320,14 @@ function RecommentComponent() {
                                                   </a>
                                                 </Link>
                                               ))}
-
-                                              <a href="#" className="tag-link">
-                                                Hài hước
-                                              </a>
                                             </div>
                                           </td>
                                           <td>
                                             <a
                                               className="btn theme-btn theme-btn-sm"
+                                              style={{
+                                                color: "white"
+                                              }}
                                               onClick={_getSelectedCaption.bind(
                                                 this,
                                                 caption.content
@@ -349,17 +357,9 @@ function RecommentComponent() {
               </div>
             </div>
             {/* end col-lg-9 */}
-            {resultData ? (
+            {resultData && (
               <RecommendModal resultData={resultData} />
-            ) : (
-              <div className="col-lg-4">
-                <div className="bg-gray p-3 rounded-rounded">
-                  <h3 className="fs-17">
-                    Bạn trao ảnh, chúng tôi trao caption
-                  </h3>
-                </div>
-              </div>
-            )}
+            ) }
 
             {/* end col-lg-3 */}
           </div>

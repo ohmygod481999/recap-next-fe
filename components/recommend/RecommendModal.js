@@ -7,7 +7,10 @@ function RecommendModal({ resultData }) {
   const authCacheData = useReactiveVar(authVar);
   return (
     <div className="col-lg-4">
-      <div className="sidebar">
+      <div className="sidebar" style={{
+        position: "sticky",
+        top: "130px"
+      }}>
         <div className="card card-item p-2">
           <div className="card-body">
             <div className={styles.wrapper}>
