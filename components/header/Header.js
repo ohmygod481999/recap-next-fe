@@ -22,7 +22,7 @@ function Header() {
     }
   };
   return (
-    <header className="header-area bg-white" style={{ width: "100vw" }}>
+    <header className="header-area bg-white">
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-2">
@@ -65,10 +65,12 @@ function Header() {
                     </Link>
                   </li>
                   <li>
-                    <a href="#">
-                      Caption recommendation{" "}
-                      <span className="badge bg-warning text-white">New</span>
-                    </a>
+                    <Link href={"/recommend"}>
+                      <a>
+                        Caption recommendation
+                        <span className="badge bg-warning text-white">New</span>
+                      </a>
+                    </Link>
                   </li>
                 </ul>
                 {/* end ul */}
@@ -175,66 +177,9 @@ function Header() {
               </ul> */}
           </li>
           <li>
-            <a href="#">Pages</a>
-            <ul className="sub-menu">
-              <li>
-                <a href="user-profile.html">user profile</a>
-              </li>
-              <li>
-                <a href="notifications.html">Notifications</a>
-              </li>
-              <li>
-                <a href="referrals.html">Referrals</a>
-              </li>
-              <li>
-                <a href="setting.html">settings</a>
-              </li>
-              <li>
-                <a href="ask-question.html">ask question</a>
-              </li>
-              <li>
-                <a href="question-details.html">question details</a>
-              </li>
-              <li>
-                <a href="about.html">about</a>
-              </li>
-              <li>
-                <a href="revisions.html">revisions</a>
-              </li>
-              <li>
-                <a href="category.html">category</a>
-              </li>
-              <li>
-                <a href="companies.html">companies</a>
-              </li>
-              <li>
-                <a href="company-details.html">company details</a>
-              </li>
-              <li>
-                <a href="careers.html">careers</a>
-              </li>
-              <li>
-                <a href="career-details.html">career details</a>
-              </li>
-              <li>
-                <a href="contact.html">contact</a>
-              </li>
-              <li>
-                <a href="faq.html">FAQs</a>
-              </li>
-              <li>
-                <a href="pricing-table.html">pricing tables</a>
-              </li>
-              <li>
-                <a href="error.html">page 404</a>
-              </li>
-              <li>
-                <a href="terms-and-conditions.html">Terms &amp; conditions</a>
-              </li>
-              <li>
-                <a href="privacy-policy.html">privacy policy</a>
-              </li>
-            </ul>
+            <Link href={`/recommend`}>
+              <a> Caption recommenđation</a>
+            </Link>
           </li>
           <li>
             <a href="#">blog</a>

@@ -2,10 +2,7 @@ import React from "react";
 import { getDomain } from "../../utils/helper/helpers";
 function Footer() {
   return (
-    <section
-      className="footer-area pt-80px position-relative"
-      style={{ width: "100vw" }}
-    >
+    <section className="footer-area pt-80px position-relative">
       <span className="vertical-bar-shape vertical-bar-shape-1" />
       <span className="vertical-bar-shape vertical-bar-shape-2" />
       <span className="vertical-bar-shape vertical-bar-shape-3" />

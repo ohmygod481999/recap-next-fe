@@ -54,7 +54,7 @@ function CaptionDetailComment({ commentData }) {
           {/* end answer-body */}
           <div className="question-post-user-action">
             <div className="media media-card user-media align-items-center">
-              <a href="user-profile.html" className="media-img d-block">
+              <a href="#" className="media-img d-block">
                 <img src={photoURL} alt="avatar" />
               </a>
               <div className="media-body d-flex align-items-center justify-content-between">
