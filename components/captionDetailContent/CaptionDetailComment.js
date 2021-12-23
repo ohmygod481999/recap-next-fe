@@ -77,8 +77,8 @@ function CaptionDetailComment({ commentData }) {
                       }}
                       onClick={handleUpVote}
                     >
-                      {like} <i className="la la-user mr-1" />
-                      {active ? "liked" : "like"}
+                      {like} <i className={`la ${active ? "la-heart" : "la-heart-o"} mr-1`} />
+                      {active ? "đã thích" : "yêu thích"}
                     </span>
                   </div>
                 </div>

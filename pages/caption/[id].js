@@ -10,7 +10,7 @@ function CaptionDetail({ data }) {
     const { caption_by_pk } = data;
     captionMutations.setCaptionDetail(caption_by_pk);
   }, []);
-  console.log(data);
+  
   return (
     <div>
       <Head>
