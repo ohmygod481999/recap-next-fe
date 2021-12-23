@@ -1,0 +1,23 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  margin-bottom: 1rem;
+}
+.wrapperImage {
+  width: 12%;
+}
+.image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+}
+.mainImage {
+  width: 100%;
+  height: 100%;
+}
+.imageContent {
+  width: 100%;
+  object-fit: cover;
+}
+.caption {
+}
