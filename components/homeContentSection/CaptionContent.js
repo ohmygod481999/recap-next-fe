@@ -97,7 +97,9 @@ function CaptionContent({ captionsData, handleRefetch }) {
       <div className="media-body">
         <h5 className="mb-2 fw-medium">
           <Link href={authDataCache?.isLoggedIn ? `/caption/${id}` : "/login"}>
-            <a>{content}</a>
+            <a style={{
+              whiteSpace: "pre-line"
+            }}>{content}</a>
           </Link>
         </h5>
         <p className="mb-2 truncate lh-20 fs-15"></p>

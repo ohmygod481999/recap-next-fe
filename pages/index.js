@@ -307,10 +307,10 @@ export const getServerSideProps = async (ctx) => {
       offset: 0
     }
   });
-
+  console.log(data)
   return {
     props: {
-      data
+      data,
     }
   };
 };

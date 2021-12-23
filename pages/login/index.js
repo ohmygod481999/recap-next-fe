@@ -10,7 +10,7 @@ function Login() {
         <meta name="author" content="TechyDevs" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-        <title>Disilab - Social Questions and Answers HTML Template</title>
+        <title>Recap - Caption recommendation community</title>
       </Head>
       <LoginForm />
     </div>

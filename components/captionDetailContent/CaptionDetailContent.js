@@ -53,8 +53,10 @@ function CaptionDetailContent({ singleCaptionData }) {
               id: authCacheData.id,
               __typename: "user",
               user_detail: {
-                displayName: authCacheData.user.displayName,
-                photoURL: authCacheData.user.photoURL,
+                data: {
+                  display_name: authCacheData.user.displayName,
+                  photo_url: authCacheData.user.photoURL,
+                },
                 __typename: "UserRecord"
               }
             }

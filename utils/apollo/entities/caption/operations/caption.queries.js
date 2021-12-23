@@ -47,9 +47,11 @@ export const GET_SINGLE_CAPTION = gql`
           user {
             id
             user_detail {
-              displayName
-              email
-              photoURL
+              data {
+                display_name
+                email
+                photo_url
+              }
             }
           }
         }
@@ -57,9 +59,11 @@ export const GET_SINGLE_CAPTION = gql`
         user {
           id
           user_detail {
-            displayName
-            email
-            photoURL
+            data {
+              display_name
+              email
+              photo_url
+            }
           }
         }
       }
@@ -81,8 +85,11 @@ export const GET_COMMENT_OF_SINGLE_CAPTION = gql`
       user {
         id
         user_detail {
-          displayName
-          photoURL
+          data {
+            display_name
+            email
+            photo_url
+          }
         }
       }
     }
@@ -97,8 +104,11 @@ export const GET_REPLY_OF_SINGLE_COMMENT = gql`
       user {
         id
         user_detail {
-          displayName
-          photoURL
+          data {
+            display_name
+            email
+            photo_url
+          }
         }
       }
     }
@@ -128,18 +138,22 @@ export const GET_CAPTION_DETAIL_CACHE = gql`
           user {
             id
             user_detail {
-              displayName
-              email
-              photoURL
+              data {
+                display_name
+                email
+                photo_url
+              }
             }
           }
         }
         user {
           id
           user_detail {
-            displayName
-            email
-            photoURL
+            data {
+              display_name
+              email
+              photo_url
+            }
           }
         }
       }

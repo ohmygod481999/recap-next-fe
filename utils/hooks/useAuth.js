@@ -19,7 +19,7 @@ function useAuth() {
           const idTokenReuslt = await auth.currentUser.getIdTokenResult();
           const isAdmin = await Boolean(idTokenReuslt.claims.isAdmin);
           const userInfo = {
-            displayName: user.displayName,
+            display_name: user.display_name,
             email: user.email,
             emailVerified: user.emailVerified,
             phoneNumber: user.phoneNumber,

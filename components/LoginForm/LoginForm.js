@@ -101,7 +101,7 @@ function LoginForm() {
             <div className="col-lg-5 mx-auto">
               <div className="form-action-wrapper py-5">
                 <div className="form-group">
-                  <h3 className="fs-22 pb-3 fw-bold">Log in to Disilab</h3>
+                  <h3 className="fs-22 pb-3 fw-bold">Log in to Recap</h3>
                   <div className="divider">
                     <span />
                   </div>

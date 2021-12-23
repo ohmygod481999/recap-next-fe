@@ -5,7 +5,7 @@ import TimeAgo from "../TimeAgo";
 
 function ReplyComment({ data, parentId, fakeReplyData, handleFakeReplyData }) {
   const { content, created_at, user, id } = data;
-  
+  console.log(user)
   return (
     <div>
       <li>
@@ -15,13 +15,13 @@ function ReplyComment({ data, parentId, fakeReplyData, handleFakeReplyData }) {
         <div className="comment-body flex-grow-1">
           <div className="media media-card user-media align-items-center p-0 pb-2">
             <a href="user-profile.html" className="media-img d-block">
-              <img src={user?.user_detail.photoURL} alt="avatar" />
+              <img src={user?.user_detail?.data?.photo_url} alt="avatar" />
             </a>
             <div className="media-body d-flex align-items-center justify-content-between">
               <div>
                 <h5 className="pb-1">
                   <a href="user-profile.html">
-                    {user?.user_detail.displayName}
+                    {user?.user_detail.data?.display_name}
                   </a>
                 </h5>
                 <div className="stats fs-12 d-flex align-items-center lh-18">

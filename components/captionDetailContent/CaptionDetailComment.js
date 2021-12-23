@@ -11,9 +11,9 @@ import ReplyComment from "./ReplyComment";
 
 function CaptionDetailComment({ commentData }) {
   const { content, created_at, id, user, comments, votings } = commentData;
-  const { photoURL, displayName } = user.user_detail;
+  const { photo_url, display_name } = user && user.user_detail ? user.user_detail.data : {};
   const authCache = useReactiveVar(authVar);
-  const [like, setLike] = useState(votings.length);
+  const [like, setLike] = useState(votings ? votings.length : 0);
   const [active, setActive] = useState(false);
   const [upVoteComment, reuslt] = useMutation(UP_VOTE_COMMENT, {
     variables: {
@@ -41,7 +41,7 @@ function CaptionDetailComment({ commentData }) {
   useEffect(() => {
     if (authCache) {
       setActive(() => {
-        return votings.some((voting) => voting.user_id === authCache.id);
+        return (votings || []).some((voting) => voting.user_id === authCache.id);
       });
     }
   }, [authCache]);
@@ -55,12 +55,12 @@ function CaptionDetailComment({ commentData }) {
           <div className="question-post-user-action">
             <div className="media media-card user-media align-items-center">
               <a href="#" className="media-img d-block">
-                <img src={photoURL} alt="avatar" />
+                <img src={photo_url} alt="avatar" />
               </a>
               <div className="media-body d-flex align-items-center justify-content-between">
                 <div>
                   <h5 className="pb-1">
-                    <a href="user-profile.html">{displayName}</a>
+                    <a href="user-profile.html">{display_name}</a>
                   </h5>
                   <div className="stats fs-12 d-flex align-items-center lh-18 ">
                     <p className="text-black">{content}</p>

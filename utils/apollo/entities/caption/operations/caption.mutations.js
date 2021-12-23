@@ -29,8 +29,11 @@ export const ADD_COMMENT = gql`
       user {
         id
         user_detail {
-          displayName
-          photoURL
+          data {
+            display_name
+            email
+            photo_url
+          }
         }
       }
     }
@@ -55,8 +58,11 @@ export const REPLY_COMMENT = gql`
       user {
         id
         user_detail {
-          displayName
-          photoURL
+          data {
+            display_name
+            email
+            photo_url
+          }
         }
       }
     }
