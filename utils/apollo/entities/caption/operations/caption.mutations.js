@@ -79,7 +79,9 @@ export const CREATE_CAPTION = gql`
         author_id: $author_id
         category_id: $category_id
         content: $content
-        status: 0
+        status: 1
+        emotion: 1
+        point: 0
       }
     ) {
       id

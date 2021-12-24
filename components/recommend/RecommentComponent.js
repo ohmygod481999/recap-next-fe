@@ -10,7 +10,7 @@ function RecommentComponent() {
     status: "ide",
     loading: false,
     error: false,
-    result: []
+    result: null
   });
   const [resultData, setResultData] = useState(null);
   const {
@@ -26,18 +26,24 @@ function RecommentComponent() {
     formData.append("num_cap", 5);
     document.getElementById("recommend-captions").scrollIntoView({behavior: "smooth"});
     setResultData(null)
+    
     try {
       setStatusCaption((prev) => ({
         ...prev,
         status: "loading",
-        loading: true
+        loading: true,
+        result: null
       }));
       postRecommend(formData).then((data) => {
         setStatusCaption((prev) => ({
           ...prev,
           status: "fullfilled",
           loading: false,
-          result: data.data.captions
+          result: {
+            captions: data.data.captions,
+            lameCaption: data.data.describe_image,
+            emotion: data.data.emotion
+          }
         }));
         reset();
       });
@@ -156,12 +162,11 @@ function RecommentComponent() {
                           <div className="divider">
                             <span />
                           </div>
-                          <div className="row pt-4  mb-5">
+                          <div className="row pt-4 mb-5">
                             <div className="col-lg-6">
-                              <div className="edit-profile-photo d-flex flex-wrap align-items-center mt-1">
-                              {selectedImage && (
-                                <div style={{ width: "100%", height: "100%" }}>
-                                 
+                              <div className="edit-profile-photo d-flex flex-wrap ">
+                                {selectedImage && (
+                                  <div style={{ width: "100%", height: "100%" }}>
                                     <img
                                       src={
                                         (selectedImage &&
@@ -175,9 +180,9 @@ function RecommentComponent() {
                                         objectFit: "cover"
                                       }}
                                     />
-                                </div>
-                              )}
-                                <div className="mt-4" style={{ width: "100%" }}>
+                                  </div>
+                                )}
+                                <div style={{ width: "100%", marginTop: "34px" }}>
                                   <div
                                     className="file-upload-wrap file--upload-wrap"
                                     style={{ width: "100%" }}
@@ -210,7 +215,7 @@ function RecommentComponent() {
                               {/* end edit-profile-photo */}
                             </div>
                             {/* end col-lg-6 */}
-                            <div className="col-lg-6">
+                            <div className="col-lg-6" id="recommend-captions">
                               <div className="input-box">
                                 <label className="fs-13 text-black lh-20 fw-medium">
                                   Tên bạn là
@@ -250,102 +255,111 @@ function RecommentComponent() {
                           {/* end row */}
                         </div>
                         {/* end settings-item */}
-                        <div className="settings-item">
-                          <h4 id="recommend-captions" className="fs-14 pb-2 text-gray text-uppercase">
-                            Captions cho bạn
-                          </h4>
-                          <div className="divider">
-                            <span />
+                        {statusCaption.loading && (
+                          <div
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              justifyContent: "center"
+                            }}
+                          >
+                            <Loading />
                           </div>
-                          <div className="row pt-4">
-                            <div className="col-lg-12">
-                              <table className="table generic-table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Caption</th>
-                                    <th scope="col">Point</th>
-                                    <th scope="col">Tags</th>
-                                    <th scope="col">Action</th>
-                                  </tr>
-                                </thead>
-                                {statusCaption.loading && (
-                                  <tbody>
-                                    <tr>
-                                      <th colSpan={10}>
-                                        <div
-                                          style={{
-                                            width: "100%",
-                                            display: "flex",
-                                            justifyContent: "center"
-                                          }}
-                                        >
-                                          <Loading />
-                                        </div>
-                                      </th>
-                                    </tr>
-                                  </tbody>
-                                )}
-                                { !statusCaption.loading && statusCaption.result &&
-                                  statusCaption.result.map((caption) => {
-                                    return (
-                                      <tbody key={caption.id}>
-                                        <tr>
-                                          <th scope="row">
-                                            <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                                              {/* <a href="#" class="media-img d-block media-img-sm">
-                                                              <img src="images/product-img.jpg" alt="Product image">
-                                                          </a> */}
-                                              <div className="media-body">
-                                                <h5 className="fs-15 fw-medium">
-                                                  <Link
-                                                    href={`/caption/${caption.id}`}
-                                                  >
-                                                    <a>{caption.content}</a>
-                                                  </Link>
-                                                </h5>
-                                              </div>
-                                            </div>
-                                          </th>
-                                          <td>
-                                            <div className="tags">
-                                              {Math.round(caption.point * 100) / 100}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div className="tags">
-                                              {caption.tags.map((tag) => (
-                                                <Link key={tag.id} href={"#"}>
-                                                  <a className="tag-link">
-                                                    {tag.name}
-                                                  </a>
-                                                </Link>
-                                              ))}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <a
-                                              className="btn theme-btn theme-btn-sm"
-                                              style={{
-                                                color: "white"
-                                              }}
-                                              onClick={_getSelectedCaption.bind(
-                                                this,
-                                                caption.content
-                                              )}
-                                            >
-                                              Chọn
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    );
-                                  })}
-                              </table>
+                        )}
+                        {statusCaption.result && (
+                          <div className="settings-item" >
+                            <h4 className="fs-14 pb-2 text-gray text-uppercase">
+                              Captions cho bạn
+                            </h4>
+                            <div className="divider">
+                              <span />
                             </div>
-                            {/* end col-lg-6 */}
+                            <div className="row pt-4">
+                              <div className="col-lg-12 mb-1">
+                              <label className="fs-15 text-black lh-20 fw-medium">
+                                    Mô tả: 
+                                  </label>{" "}
+                                  <label className="lh-20 fs-15">{statusCaption.result.lameCaption}</label>
+                                </div>
+                              <div className="col-lg-12 mb-3">
+                              <label className="fs-15 text-black lh-20 fw-medium">
+                                    Tâm trạng ảnh: 
+                                  </label>{" "}
+                                  <label className="lh-20 fs-15">{statusCaption.result.emotion === "sad" ? "so deep 😔": "vui 😙"}</label>
+                                </div>
+                              <div className="col-lg-12">
+                                <table className="table generic-table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Caption</th>
+                                      <th scope="col">Similarity</th>
+                                      <th scope="col">Tags</th>
+                                      <th scope="col">Action</th>
+                                    </tr>
+                                  </thead>
+                                  
+                                  {statusCaption.result &&
+                                    statusCaption.result.captions.map((caption) => {
+                                      return (
+                                        <tbody key={caption.id}>
+                                          <tr>
+                                            <th scope="row">
+                                              <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                                {/* <a href="#" class="media-img d-block media-img-sm">
+                                                                <img src="images/product-img.jpg" alt="Product image">
+                                                            </a> */}
+                                                <div className="media-body">
+                                                  <h5 className="fs-15 fw-medium">
+                                                    <Link
+                                                      href={`/caption/${caption.id}`}
+                                                    >
+                                                      <a>{caption.content}</a>
+                                                    </Link>
+                                                  </h5>
+                                                </div>
+                                              </div>
+                                            </th>
+                                            <td>
+                                              <div className="tags">
+                                                {Math.round(caption.point * 100) / 100}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <div className="tags">
+                                                {caption.tags.map((tag) => (
+                                                  <Link key={tag.id} href={"#"}>
+                                                    <a className="tag-link">
+                                                      {tag.name}
+                                                    </a>
+                                                  </Link>
+                                                ))}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <a
+                                                className="btn theme-btn theme-btn-sm"
+                                                style={{
+                                                  color: "white"
+                                                }}
+                                                onClick={_getSelectedCaption.bind(
+                                                  this,
+                                                  caption.content
+                                                )}
+                                              >
+                                                Chọn
+                                              </a>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      );
+                                    })}
+                                </table>
+                              </div>
+                              {/* end col-lg-6 */}
+                            </div>
+                            {/* end row */}
                           </div>
-                          {/* end row */}
-                        </div>
+                        )}
                         {/* end settings-item */}
                       </form>
                     </div>

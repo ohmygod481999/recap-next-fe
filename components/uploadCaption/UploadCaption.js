@@ -21,6 +21,12 @@ function UploadCaption({ tagsData }) {
     value: t.name,
     label: t.name
   }));
+  useEffect(() => {
+    console.log(result.data)
+    if (result.data) {
+      window.location.replace("/")
+    }
+  }, [result.data])
   const [tags, setTags] = useState(fomatTagsData);
   const {
     register,
@@ -39,7 +45,7 @@ function UploadCaption({ tagsData }) {
       variables: {
         content: data.content,
         author_id: authCahe.id,
-        category_id: "c968380b-d6ba-4342-9520-3c8554453395"
+        category_id: "2f3fa667-51d1-4703-b0cf-e35d21ded87b"
       }
     });
   };

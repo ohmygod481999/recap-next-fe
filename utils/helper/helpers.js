@@ -9,7 +9,7 @@ export const postRecommend = async (params) => {
   console.log(params);
   try {
     const res = await axios.post(
-      "http://159.223.77.70:5001/caption_image_recommendation/recommend",
+      "https://recap.longvb.tech/caption_image_recommendation/recommend",
       params,
       {
         headers: {

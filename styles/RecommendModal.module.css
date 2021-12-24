@@ -1,10 +1,9 @@
 .wrapper {
   width: 100%;
   display: flex;
-  margin-bottom: 1rem;
 }
 .wrapperImage {
-  width: 12%;
+  width: 14%;
 }
 .image {
   width: 100%;
@@ -20,4 +19,18 @@
   object-fit: cover;
 }
 .caption {
+}
+.feature {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-top: 0.3rem;
+}
+.feature_child {
+  width: calc(100% / 3 - 2%);
+  cursor: pointer;
+  font-weight: 500;
+}
+.feature_child span {
 }

@@ -34,11 +34,14 @@ export default function Home({ data }) {
               giúp bạn.
             </p>
             <div className="hero-btn-box py-4">
-              <a href="signup.html" className="btn theme-btn mr-2">
+              <a href="signup.html" className="btn theme-btn mr-2" onClick={e => {
+                e.preventDefault()
+                document.querySelector(".question-area").scrollIntoView({behavior: "smooth"})
+              }}>
                 Khám phá ngay
               </a>
               <a
-                href="ask-question.html"
+                href="/recommend"
                 className="btn theme-btn theme-btn-outline"
               >
                 Gợi ý caption
@@ -110,7 +113,7 @@ export default function Home({ data }) {
                 <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
                   Khám phá captions
                 </h5>
-                <p className="fs-15 lh-20">Get the right answers. Fast</p>
+                <p className="fs-15 lh-20">Explore our wonderful captions</p>
               </div>
             </div>
             {/* end media */}
@@ -202,7 +205,7 @@ export default function Home({ data }) {
                       Đăng captions
                     </h5>
                     <p className="fs-15 lh-20">
-                      Spend five minutes feeling smart.
+                      Contribute caption with your creativity.
                     </p>
                   </a>
                 </Link>
