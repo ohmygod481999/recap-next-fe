@@ -12,10 +12,10 @@ function HomeContentSection() {
   const { data } = captionsDataCache.getNewFeed;
   const [limit, setLimit] = useState(20);
   const [hasMore, setHasMore] = useState(true);
-  const tagQuery = useQuery(GET_TAGS)
-  const allTags = tagQuery.data ? tagQuery.data.tag : []
-  console.log(tagQuery)
-  console.log(data)
+  const tagQuery = useQuery(GET_TAGS);
+  const allTags = tagQuery.data ? tagQuery.data.tag : [];
+  console.log(tagQuery);
+  console.log(data);
   const [loadMoreCaption, result] = useLazyQuery(GET_CAPTIONS, {
     variables: { limit: limit, offset: 0 }
   });
@@ -83,7 +83,6 @@ function HomeContentSection() {
           {/* end col-lg-7 */}
           <div className="col-lg-3">
             <div className="sidebar">
-              
               {/* end card */}
               <div className="card card-item">
                 <div className="card-body">
@@ -92,19 +91,22 @@ function HomeContentSection() {
                     <span />
                   </div>
                   <div className="tags pt-4">
-                    {allTags.map(tag => (
-                    <div className="tag-item">
-                      <a href="#" className="tag-link tag-link-md" onClick={e => e.preventDefault()}>
-                        {tag.name}
-                      </a>
-                      <span className="item-multiplier fs-13">
-                        <span>×</span>
-                        <span>{Math.floor(Math.random() * 1000)}</span>
-                      </span>
-                    </div>
+                    {allTags.map((tag, index) => (
+                      <div key={index} className="tag-item">
+                        <a
+                          href="#"
+                          className="tag-link tag-link-md"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {tag.name}
+                        </a>
+                        <span className="item-multiplier fs-13">
+                          <span>×</span>
+                          <span>{Math.floor(Math.random() * 1000)}</span>
+                        </span>
+                      </div>
                     ))}
                     {/* end tag-item */}
-                    
                   </div>
                 </div>
               </div>

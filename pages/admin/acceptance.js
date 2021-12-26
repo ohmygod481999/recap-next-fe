@@ -1,7 +1,11 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import CaptionContentSection from "../../components/captionContentSection/CaptionContentSection";
-function acceptance() {
+import { apolloClient } from "../../utils/apollo";
+import { captionAdminMutations } from "../../utils/apollo/entities/caption/operations/caption.mutations";
+import { GET_CAPTION_FOR_ADMIN } from "../../utils/apollo/entities/caption/operations/caption.queries";
+function acceptance({ data }) {
+  captionAdminMutations.setCaptionAdmin(data);
   return (
     <div>
       <Head>
@@ -61,7 +65,7 @@ function acceptance() {
                   aria-controls="companies"
                   aria-selected="false"
                 >
-                  Companies
+                  Caption rejected
                 </a>
               </li>
             </ul>
@@ -74,5 +78,18 @@ function acceptance() {
     </div>
   );
 }
+export const getServerSideProps = async (ctx) => {
+  const { data } = await apolloClient.query({
+    query: GET_CAPTION_FOR_ADMIN,
+    variables: {
+      status: 0
+    }
+  });
+  return {
+    props: {
+      data
+    }
+  };
+};
 
 export default acceptance;

@@ -184,3 +184,56 @@ export const GET_TAGS = gql`
     }
   }
 `;
+export const GET_CAPTION_FOR_ADMIN = gql`
+  query getCaptionForAdmin($status: Int) {
+    caption(where: { status: { _eq: $status } }) {
+      status
+      content
+      created_at
+      id
+      caption_tags {
+        tag {
+          id
+          name
+        }
+      }
+      user {
+        id
+        user_detail {
+          data {
+            display_name
+            photo_url
+            email
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_CAPTION_FOR_ADMIN_CACHE = gql`
+  query getCaptionForAdminCache($status: Int) {
+    captionAdmin @client {
+      status
+      content
+      created_at
+      id
+      caption_tags {
+        tag {
+          id
+          name
+        }
+      }
+      user {
+        id
+        user_detail {
+          data {
+            display_name
+            photo_url
+            email
+          }
+        }
+      }
+    }
+  }
+`;

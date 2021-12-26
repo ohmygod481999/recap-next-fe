@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { captionsVar, captionDetailVar } from "..";
+import { captionsVar, captionDetailVar, captionAdminVar } from "..";
 
 export const UP_VOTE_MUTATION = gql`
   mutation upVoteMutation($caption_id: uuid, $user_id: uuid) {
@@ -111,6 +111,18 @@ export const DELETE_VOTE_COMMENT = gql`
     }
   }
 `;
+export const ADMIN_CAPTION = gql`
+  mutation adminCaption($id: uuid!, $status: Int) {
+    update_caption(where: { id: { _eq: $id } }, _set: { status: $status }) {
+      affected_rows
+      returning {
+        content
+        created_at
+        status
+      }
+    }
+  }
+`;
 const createSetCaptionDetail = (captionDetailVar) => {
   return (captionDetail) => {
     captionDetailVar({
@@ -121,4 +133,15 @@ const createSetCaptionDetail = (captionDetailVar) => {
 
 export const captionMutations = {
   setCaptionDetail: createSetCaptionDetail(captionDetailVar)
+};
+const createSetCaptionAdmin = (captionAdminVar) => {
+  return (captionAdmin) => {
+    captionAdminVar({
+      ...captionAdmin
+    });
+  };
+};
+
+export const captionAdminMutations = {
+  setCaptionAdmin: createSetCaptionAdmin(captionAdminVar)
 };
