@@ -308,9 +308,9 @@ export const getServerSideProps = async (ctx) => {
     variables: {
       limit: 10,
       offset: 0
-    }
+    },
+    fetchPolicy: "network-only",
   });
-  console.log(data)
   return {
     props: {
       data,

@@ -26,7 +26,8 @@ function CaptionAdmin({ captionData, captionRejected, handleLoading }) {
     decentralization({
       variables: {
         id: id,
-        status: 1
+        status: 1,
+        release_at: new Date().toISOString()
       }
     });
   };
@@ -34,7 +35,8 @@ function CaptionAdmin({ captionData, captionRejected, handleLoading }) {
     decentralization({
       variables: {
         id: id,
-        status: 2
+        status: 2,
+        release_at: new Date().toISOString()
       },
       refetchQueries: [
         {

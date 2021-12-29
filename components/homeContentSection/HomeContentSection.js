@@ -63,12 +63,12 @@ function HomeContentSection() {
                 <InfiniteScroll
                   dataLength={data.length}
                   next={fetchMoreData}
-                  hasMore={hasMore}
+                  hasMore={data.length >= limit}
                   loader={<Loading />}
                   style={{ overflow: "hidden !important" }}
                   endMessage={
-                    <p style={{ textAlign: "center" }}>
-                      <b>Yay! You have seen it all</b>
+                    <p className="mt-2" style={{ textAlign: "center" }}>
+                      <b>You have seen it all</b>
                     </p>
                   }
                 >
