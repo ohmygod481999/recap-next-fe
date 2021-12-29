@@ -1,6 +1,10 @@
 import { InMemoryCache } from "@apollo/client";
 import { authVar } from "./entities/auth";
-import { captionDetailVar, captionsVar } from "./entities/caption";
+import {
+  captionAdminVar,
+  captionDetailVar,
+  captionsVar
+} from "./entities/caption";
 
 export const cache = new InMemoryCache({
   typePolicies: {
@@ -19,6 +23,11 @@ export const cache = new InMemoryCache({
         captionDetail: {
           read() {
             return captionDetailVar();
+          }
+        },
+        captionAdmin: {
+          read() {
+            return captionAdminVar();
           }
         }
       }

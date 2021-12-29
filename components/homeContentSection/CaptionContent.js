@@ -75,7 +75,7 @@ function CaptionContent({ captionsData, handleRefetch }) {
           onClick={_handleClassActiveUpVote}
         >
           <span className="vote-counts d-block text-center pr-0 lh-20 fw-medium">
-            {dataUpVote || vote_number}
+            {dataUpVote || vote_number} <i className="la la-thumbs-o-up " />
           </span>
           <span className="vote-text d-block fs-13 lh-18">votes</span>
         </div>
@@ -85,14 +85,14 @@ function CaptionContent({ captionsData, handleRefetch }) {
           onClick={handleReidrect}
         >
           <span className="answer-counts d-block lh-20 fw-medium">
-            {comments.length}
+            {comments.length} <i className="la la-pen " />
           </span>
           <span className="answer-text d-block fs-13 lh-18">comments</span>
         </div>
-        <div className="view-block">
+        {/* <div className="view-block">
           <span className="view-counts d-block lh-20 fw-medium">12</span>
           <span className="view-text d-block fs-13 lh-18">views</span>
-        </div>
+        </div> */}
       </div>
       <div className="media-body">
         <h5 className="mb-2 fw-medium">
