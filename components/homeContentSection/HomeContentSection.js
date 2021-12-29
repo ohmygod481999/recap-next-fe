@@ -45,6 +45,12 @@ function HomeContentSection() {
                     <i className="la la-home mr-1 text-black" /> Home
                   </a>
                 </li>
+                
+                <li className="lh-26">
+                  <a href="/captions">
+                    <i className="la la-list mr-1 text-black" /> All captions
+                  </a>
+                </li>
               </ul>
             </div>
             {/* end sidebar */}

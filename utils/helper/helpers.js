@@ -23,3 +23,5 @@ export const postRecommend = async (params) => {
     console.log(e.message);
   }
 };
+
+export const defaultCategoryId = "2f3fa667-51d1-4703-b0cf-e35d21ded87b"

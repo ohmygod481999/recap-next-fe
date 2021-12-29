@@ -22,7 +22,7 @@ function Footer() {
           </div>
           {/* end col-lg-6 */}
           <div className="col-lg-6">
-            <ul className="generic-list-item generic-list-item-hover-underline generic-list-item-inline text-right">
+            {/* <ul className="generic-list-item generic-list-item-hover-underline generic-list-item-inline text-right">
               <li>
                 <a href="#">Vương Bảo Long</a>
               </li>
@@ -38,7 +38,7 @@ function Footer() {
               <li>
                 <a href="#">Lê Đức Kiên</a>
               </li>
-            </ul>
+            </ul> */}
           </div>
           {/* end col-lg-6 */}
         </div>
