@@ -14,12 +14,9 @@ function HomeContentSection() {
   const [hasMore, setHasMore] = useState(true);
   const tagQuery = useQuery(GET_TAGS);
   const allTags = tagQuery.data ? tagQuery.data.tag : [];
-  console.log(tagQuery);
-  console.log(data);
   const [loadMoreCaption, result] = useLazyQuery(GET_CAPTIONS, {
     variables: { limit: limit, offset: 0 }
   });
-
   const fetchMoreData = () => {
     if (data.length >= 500) {
       setHasMore(false);
@@ -45,9 +42,9 @@ function HomeContentSection() {
                     <i className="la la-home mr-1 text-black" /> Home
                   </a>
                 </li>
-                
+
                 <li className="lh-26">
-                  <a href="/captions">
+                  <a href="#">
                     <i className="la la-list mr-1 text-black" /> All captions
                   </a>
                 </li>

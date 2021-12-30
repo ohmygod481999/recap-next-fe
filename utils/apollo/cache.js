@@ -1,6 +1,7 @@
 import { InMemoryCache } from "@apollo/client";
 import { authVar } from "./entities/auth";
 import {
+  allCaptionsVar,
   captionAdminVar,
   captionDetailVar,
   captionsVar
@@ -18,6 +19,11 @@ export const cache = new InMemoryCache({
         captions: {
           read() {
             return captionsVar();
+          }
+        },
+        allCaption: {
+          read() {
+            return allCaptionsVar();
           }
         },
         captionDetail: {

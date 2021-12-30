@@ -27,6 +27,50 @@ export const GET_CAPTIONS = gql`
     }
   }
 `;
+export const GET_ALL_CAPTIONS = gql`
+  query getAllCaptions($limit: Int, $content: String, $tag_id: [uuid!]) {
+    caption(
+      limit: $limit
+      where: {
+        content: { _regex: $content }
+        caption_tags: { tag_id: { _in: $tag_id } }
+      }
+    ) {
+      content
+      created_at
+      id
+      status
+      votings {
+        id
+        user_id
+      }
+      caption_tags {
+        tag {
+          id
+          name
+        }
+      }
+      comments {
+        id
+      }
+      user {
+        id
+        user_detail {
+          data {
+            display_name
+            email
+            photo_url
+          }
+        }
+      }
+    }
+  }
+`;
+export const ALL_CAPTION_CACHE = gql`
+  query {
+    allCaptions @client
+  }
+`;
 export const GET_SINGLE_CAPTION = gql`
   query getSingleCAption($id: uuid!) {
     caption_by_pk(id: $id) {

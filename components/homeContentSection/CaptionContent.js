@@ -24,7 +24,7 @@ function CaptionContent({ captionsData, handleRefetch }) {
   const authDataCache = useReactiveVar(authVar);
   const router = useRouter();
   const [active, setActive] = useState(false);
-  const [dataUpVote, setDataUpVote] = useState(votings?.length || vote_number);
+  const [dataUpVote, setDataUpVote] = useState(votings?.length);
   const [upVote, resultMutation] = useMutation(UP_VOTE_MUTATION);
   const [disUpVote, { data }] = useMutation(DELETE_VOTE_MUTATION);
   const _handleClassActiveUpVote = () => {
@@ -59,13 +59,14 @@ function CaptionContent({ captionsData, handleRefetch }) {
       router.push(`/caption/${id}`);
     }
   };
-  // useEffect(() => {
-  //   if (authDataCache) {
-  //     setActive(() => {
-  //       return votings.some((voting) => voting.user_id === authDataCache.id);
-  //     });
-  //   }
-  // }, [authDataCache]);
+  useEffect(() => {
+    if (authDataCache && votings) {
+      setActive(() => {
+        return votings.some((voting) => voting.user_id === authDataCache.id);
+      });
+    }
+  }, [authDataCache]);
+  console.log(vote_number);
   return (
     <div className="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
       <div className="votes text-center votes-2">
@@ -75,7 +76,8 @@ function CaptionContent({ captionsData, handleRefetch }) {
           onClick={_handleClassActiveUpVote}
         >
           <span className="vote-counts d-block text-center pr-0 lh-20 fw-medium">
-            {dataUpVote || vote_number} <i className="la la-thumbs-o-up " />
+            {votings ? dataUpVote : vote_number}{" "}
+            <i className="la la-thumbs-o-up " />
           </span>
           <span className="vote-text d-block fs-13 lh-18">votes</span>
         </div>
@@ -97,16 +99,28 @@ function CaptionContent({ captionsData, handleRefetch }) {
       <div className="media-body">
         <h5 className="mb-2 fw-medium">
           <Link href={authDataCache?.isLoggedIn ? `/caption/${id}` : "/login"}>
-            <a style={{
-              whiteSpace: "pre-line"
-            }}>{content}</a>
+            <a
+              style={{
+                whiteSpace: "pre-line"
+              }}
+            >
+              {content}
+            </a>
           </Link>
         </h5>
         <p className="mb-2 truncate lh-20 fs-15"></p>
         <p className="mb-2 truncate lh-20 fs-15"></p>
         <div className="tags">
-          {tag.map((tagChild) => {
+          {tag?.map((tagChild) => {
             const { id, name } = tagChild;
+            return (
+              <a key={id} href="#" className="tag-link">
+                {name}
+              </a>
+            );
+          })}
+          {captionsData?.caption_tags?.map((tag) => {
+            const { id, name } = tag.tag;
             return (
               <a key={id} href="#" className="tag-link">
                 {name}
@@ -117,7 +131,12 @@ function CaptionContent({ captionsData, handleRefetch }) {
         <div className="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
           <a href="user-profile.html" className="media-img d-block">
             <img
-              src={author.photo_url ? author.photo_url : "images/img3.jpg"}
+              src={
+                author?.photo_url || captionsData?.user?.user_detail
+                  ? author?.photo_url ||
+                    captionsData.user.user_detail.data.photo_url
+                  : "images/img3.jpg"
+              }
               alt="avatar"
             />
           </a>
@@ -125,7 +144,10 @@ function CaptionContent({ captionsData, handleRefetch }) {
             <div>
               <h5 className="pb-1">
                 <a href="user-profile.html">
-                  {author.display_name ? author.display_name : author.email}
+                  {author?.display_name || captionsData?.user?.user_detail
+                    ? author?.display_name ||
+                      captionsData.user.user_detail.data.display_name
+                    : author?.email}
                 </a>
               </h5>
               <div className="stats fs-12 d-flex align-items-center lh-18">
