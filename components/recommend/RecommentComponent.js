@@ -24,9 +24,11 @@ function RecommentComponent() {
     const formData = new FormData();
     formData.append("file", selectedImage);
     formData.append("num_cap", 5);
-    document.getElementById("recommend-captions").scrollIntoView({behavior: "smooth"});
-    setResultData(null)
-    
+    document
+      .getElementById("recommend-captions")
+      .scrollIntoView({ behavior: "smooth" });
+    setResultData(null);
+
     try {
       setStatusCaption((prev) => ({
         ...prev,
@@ -125,12 +127,7 @@ function RecommentComponent() {
         </div>
         {/* end container */}
       </section>
-      {/*======================================
-  END HERO AREA
-======================================*/}
-      {/* ================================
-   START USER DETAILS AREA
-================================= */}
+
       <section className="user-details-area pt-40px pb-40px">
         <div className="container">
           <div className={`row ${!resultData && "justify-content-center"}`}>
@@ -166,11 +163,15 @@ function RecommentComponent() {
                             <div className="col-lg-6">
                               <div className="edit-profile-photo d-flex flex-wrap ">
                                 {selectedImage && (
-                                  <div style={{ width: "100%", height: "100%" }}>
+                                  <div
+                                    style={{ width: "100%", height: "100%" }}
+                                  >
                                     <img
                                       src={
                                         (selectedImage &&
-                                          URL?.createObjectURL(selectedImage)) ||
+                                          URL?.createObjectURL(
+                                            selectedImage
+                                          )) ||
                                         "images/team.jpg"
                                       }
                                       alt="user avatar"
@@ -182,7 +183,9 @@ function RecommentComponent() {
                                     />
                                   </div>
                                 )}
-                                <div style={{ width: "100%", marginTop: "34px" }}>
+                                <div
+                                  style={{ width: "100%", marginTop: "34px" }}
+                                >
                                   <div
                                     className="file-upload-wrap file--upload-wrap"
                                     style={{ width: "100%" }}
@@ -267,7 +270,7 @@ function RecommentComponent() {
                           </div>
                         )}
                         {statusCaption.result && (
-                          <div className="settings-item" >
+                          <div className="settings-item">
                             <h4 className="fs-14 pb-2 text-gray text-uppercase">
                               Captions cho bạn
                             </h4>
@@ -276,17 +279,23 @@ function RecommentComponent() {
                             </div>
                             <div className="row pt-4">
                               <div className="col-lg-12 mb-1">
-                              <label className="fs-15 text-black lh-20 fw-medium">
-                                    Mô tả: 
-                                  </label>{" "}
-                                  <label className="lh-20 fs-15">{statusCaption.result.lameCaption}</label>
-                                </div>
+                                <label className="fs-15 text-black lh-20 fw-medium">
+                                  Mô tả:
+                                </label>{" "}
+                                <label className="lh-20 fs-15">
+                                  {statusCaption.result.lameCaption}
+                                </label>
+                              </div>
                               <div className="col-lg-12 mb-3">
-                              <label className="fs-15 text-black lh-20 fw-medium">
-                                    Tâm trạng ảnh: 
-                                  </label>{" "}
-                                  <label className="lh-20 fs-15">{statusCaption.result.emotion === "sad" ? "so deep 😔": "vui 😙"}</label>
-                                </div>
+                                <label className="fs-15 text-black lh-20 fw-medium">
+                                  Tâm trạng ảnh:
+                                </label>{" "}
+                                <label className="lh-20 fs-15">
+                                  {statusCaption.result.emotion === "sad"
+                                    ? "so deep 😔"
+                                    : "vui 😙"}
+                                </label>
+                              </div>
                               <div className="col-lg-12">
                                 <table className="table generic-table">
                                   <thead>
@@ -297,62 +306,69 @@ function RecommentComponent() {
                                       <th scope="col">Action</th>
                                     </tr>
                                   </thead>
-                                  
+
                                   {statusCaption.result &&
-                                    statusCaption.result.captions.map((caption) => {
-                                      return (
-                                        <tbody key={caption.id}>
-                                          <tr>
-                                            <th scope="row">
-                                              <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
-                                                {/* <a href="#" class="media-img d-block media-img-sm">
+                                    statusCaption.result.captions.map(
+                                      (caption) => {
+                                        return (
+                                          <tbody key={caption.id}>
+                                            <tr>
+                                              <th scope="row">
+                                                <div className="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
+                                                  {/* <a href="#" class="media-img d-block media-img-sm">
                                                                 <img src="images/product-img.jpg" alt="Product image">
                                                             </a> */}
-                                                <div className="media-body">
-                                                  <h5 className="fs-15 fw-medium">
-                                                    <Link
-                                                      href={`/caption/${caption.id}`}
-                                                    >
-                                                      <a>{caption.content}</a>
-                                                    </Link>
-                                                  </h5>
+                                                  <div className="media-body">
+                                                    <h5 className="fs-15 fw-medium">
+                                                      <Link
+                                                        href={`/caption/${caption.id}`}
+                                                      >
+                                                        <a>{caption.content}</a>
+                                                      </Link>
+                                                    </h5>
+                                                  </div>
                                                 </div>
-                                              </div>
-                                            </th>
-                                            <td>
-                                              <div className="tags">
-                                                {Math.round(caption.point * 100) / 100}
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <div className="tags">
-                                                {caption.tags.map((tag) => (
-                                                  <Link key={tag.id} href={"#"}>
-                                                    <a className="tag-link">
-                                                      {tag.name}
-                                                    </a>
-                                                  </Link>
-                                                ))}
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <a
-                                                className="btn theme-btn theme-btn-sm"
-                                                style={{
-                                                  color: "white"
-                                                }}
-                                                onClick={_getSelectedCaption.bind(
-                                                  this,
-                                                  caption.content
-                                                )}
-                                              >
-                                                Chọn
-                                              </a>
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      );
-                                    })}
+                                              </th>
+                                              <td>
+                                                <div className="tags">
+                                                  {Math.round(
+                                                    caption.point * 100
+                                                  ) / 100}
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <div className="tags">
+                                                  {caption.tags.map((tag) => (
+                                                    <Link
+                                                      key={tag.id}
+                                                      href={"#"}
+                                                    >
+                                                      <a className="tag-link">
+                                                        {tag.name}
+                                                      </a>
+                                                    </Link>
+                                                  ))}
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <a
+                                                  className="btn theme-btn theme-btn-sm"
+                                                  style={{
+                                                    color: "white"
+                                                  }}
+                                                  onClick={_getSelectedCaption.bind(
+                                                    this,
+                                                    caption.content
+                                                  )}
+                                                >
+                                                  Chọn
+                                                </a>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        );
+                                      }
+                                    )}
                                 </table>
                               </div>
                               {/* end col-lg-6 */}
@@ -371,9 +387,7 @@ function RecommentComponent() {
               </div>
             </div>
             {/* end col-lg-9 */}
-            {resultData && (
-              <RecommendModal resultData={resultData} />
-            ) }
+            {resultData && <RecommendModal resultData={resultData} />}
 
             {/* end col-lg-3 */}
           </div>

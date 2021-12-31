@@ -27,13 +27,15 @@ function Header() {
         <div className="row align-items-center">
           <div className="col-lg-2">
             <div className="logo-box">
-              <a href="/" className="logo" style={{ cursor: "pointer" }}>
-                <img
-                  src={("/images/recap-rec.png")}
-                  alt="logo"
-                  style={{ cursor: "pointer" }}
-                />
-              </a>
+              <Link href="/">
+                <a className="logo" style={{ cursor: "pointer" }}>
+                  <img
+                    src={"/images/recap-rec.png"}
+                    alt="logo"
+                    style={{ cursor: "pointer" }}
+                  />
+                </a>
+              </Link>
               <div className="user-action">
                 <div
                   className="search-menu-toggle icon-element icon-element-xs shadow-sm mr-1"
@@ -91,9 +93,8 @@ function Header() {
               </form>
               <div className="nav-right-button">
                 {authCache?.isLoggedIn && (
-                  <Link href={"/account"}>
+                  <Link href={"/user"}>
                     <a
-                      // href="login.html"
                       className="btn theme-btn mr-2"
                       // onClick={e => e.preventDefault()}
                     >
@@ -245,7 +246,7 @@ function Header() {
             </Link>
           )}
           {authCache?.isLoggedIn && (
-            <Link href={"/account"}>
+            <Link href={"/user"}>
               <a
                 // href="login.html"
                 className="btn theme-btn theme-btn-sm"
@@ -257,8 +258,7 @@ function Header() {
                 }}
               >
                 <i className="la la-user mr-1" />
-                account
-                {/* {authCache.user.displayName} */}
+                User
               </a>
             </Link>
           )}

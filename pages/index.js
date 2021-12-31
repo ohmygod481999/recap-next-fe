@@ -113,10 +113,16 @@ export default function Home({ data }) {
                 <path d="M210,274H64c-5.522,0-10-4.477-10-10s4.478-10,10-10h146c5.522,0,10,4.477,10,10S215.523,274,210,274z" />
               </svg>
               <div className="media-body">
-                <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
-                  Khám phá captions
-                </h5>
-                <p className="fs-15 lh-20">Explore our wonderful captions</p>
+                <Link href={"/captions"}>
+                  <a>
+                    <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
+                      Khám phá captions
+                    </h5>
+                    <p className="fs-15 lh-20">
+                      Explore our wonderful captions
+                    </p>
+                  </a>
+                </Link>
               </div>
             </div>
             {/* end media */}
@@ -284,12 +290,16 @@ export default function Home({ data }) {
                 </g>
               </svg>
               <div className="media-body">
-                <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
-                  Thử ngay hệ thống recommend cực đỉnh
-                </h5>
-                <p className="fs-15 lh-20">
-                  Pat yourself on the back. You deserve it.
-                </p>
+                <Link href="/recommend">
+                  <a>
+                    <h5 className="fs-18 mb-1 theme-font-2 fw-bold">
+                      Thử ngay hệ thống recommend cực đỉnh
+                    </h5>
+                    <p className="fs-15 lh-20">
+                      Pat yourself on the back. You deserve it.
+                    </p>
+                  </a>
+                </Link>
               </div>
             </div>
             {/* end media */}
