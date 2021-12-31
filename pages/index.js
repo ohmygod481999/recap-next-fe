@@ -34,18 +34,21 @@ export default function Home({ data }) {
               giúp bạn.
             </p>
             <div className="hero-btn-box py-4">
-              <a href="signup.html" className="btn theme-btn mr-2" onClick={e => {
-                e.preventDefault()
-                document.querySelector(".question-area").scrollIntoView({behavior: "smooth"})
-              }}>
+              <a
+                href="signup.html"
+                className="btn theme-btn mr-2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .querySelector(".question-area")
+                    .scrollIntoView({ behavior: "smooth" });
+                }}
+              >
                 Khám phá ngay
               </a>
-              <a
-                href="/recommend"
-                className="btn theme-btn theme-btn-outline"
-              >
-                Gợi ý caption
-              </a>
+              <Link href="/recommend">
+                <a className="btn theme-btn theme-btn-outline">Gợi ý caption</a>
+              </Link>
             </div>
           </div>
           {/* end hero-content */}
@@ -309,11 +312,11 @@ export const getServerSideProps = async (ctx) => {
       limit: 10,
       offset: 0
     },
-    fetchPolicy: "network-only",
+    fetchPolicy: "network-only"
   });
   return {
     props: {
-      data,
+      data
     }
   };
 };
