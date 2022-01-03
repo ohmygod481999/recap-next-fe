@@ -12,6 +12,7 @@ import Loading, { ModalLoading } from "../Loading";
 import TimeAgo from "../TimeAgo";
 function CaptionAdmin({ captionData, captionRejected, handleLoading }) {
   const { content, created_at, id, user, caption_tags } = captionData;
+  console.log(captionRejected);
   const captionAdminCache = useReactiveVar(captionAdminVar);
   const [decentralization, { data, loading }] = useMutation(ADMIN_CAPTION, {
     update(cache, result) {
@@ -132,6 +133,7 @@ function CaptionAdmin({ captionData, captionRejected, handleLoading }) {
                 <img
                   src={
                     captionRejected?.user?.user_detail?.data?.photoURL ||
+                    captionRejected?.user?.user_detail?.data?.photo_url ||
                     "/images/img1.jpg"
                   }
                   alt="avatar"

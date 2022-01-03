@@ -66,6 +66,32 @@ export const GET_ALL_CAPTIONS = gql`
     }
   }
 `;
+export const GET_CAPTION_OF_USER = gql`
+  query getCaptionOfUser($author_id: uuid) {
+    caption(where: { author_id: { _eq: $author_id } }) {
+      status
+      content
+      created_at
+      id
+      caption_tags {
+        tag {
+          id
+          name
+        }
+      }
+      user {
+        id
+        user_detail {
+          data {
+            display_name
+            photo_url
+            email
+          }
+        }
+      }
+    }
+  }
+`;
 export const ALL_CAPTION_CACHE = gql`
   query {
     allCaptions @client
