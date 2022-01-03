@@ -113,12 +113,25 @@ export const DELETE_VOTE_COMMENT = gql`
 `;
 export const ADMIN_CAPTION = gql`
   mutation adminCaption($id: uuid!, $status: Int, $release_at: timestamptz) {
-    update_caption(where: { id: { _eq: $id } }, _set: { status: $status, release_at: $release_at }) {
+    update_caption(
+      where: { id: { _eq: $id } }
+      _set: { status: $status, release_at: $release_at }
+    ) {
       affected_rows
       returning {
         content
         created_at
         status
+      }
+    }
+  }
+`;
+export const UPDATE_INFO_USER = gql`
+  mutation updateUser($uid: ID!, $photo_url: String, $display_name: String) {
+    updateUser(uid: $uid, photo_url: $photo_url, display_name: $display_name) {
+      data {
+        display_name
+        photo_url
       }
     }
   }

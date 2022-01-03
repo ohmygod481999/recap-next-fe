@@ -7,16 +7,17 @@ function Footer() {
       <span className="vertical-bar-shape vertical-bar-shape-2" />
       <span className="vertical-bar-shape vertical-bar-shape-3" />
       <span className="vertical-bar-shape vertical-bar-shape-4" />
-      <div className="container">
-        {/* end row */}
-      </div>
+      <div className="container">{/* end row */}</div>
       {/* end container */}
       <hr className="border-top-gray my-4" />
       <div className="container">
         <div className="row align-items-center pb-4 copyright-wrap">
           <div className="col-lg-6">
             <p className="copyright-desc copyright--desc fs-14">
-              Copyright © 2021 <a href="https://www.facebook.com/profile.php?id=100009515692070">Recap</a>{" "}
+              Copyright © 2021{" "}
+              <a href="https://www.facebook.com/profile.php?id=100009515692070">
+                Recap
+              </a>{" "}
               Inc.
             </p>
           </div>

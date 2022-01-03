@@ -2,7 +2,7 @@ import firebase from "firebase/compat/app";
 // import * as firebaseui from "firebaseui";
 import "firebase/compat/auth";
 import "firebaseui/dist/firebaseui.css";
-
+import { getStorage, ref, uploadString } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyAEjefWjeJnACvEFEC4rdEpcjSeB0rRnkg",
   authDomain: "recaps48.firebaseapp.com",
@@ -15,6 +15,7 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 
 export const auth = app.auth();
+export const storage = getStorage(app);
 // export const authUI = new firebaseui.auth.AuthUI(auth);
 
 export default firebase;
