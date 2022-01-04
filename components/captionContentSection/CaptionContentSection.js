@@ -19,7 +19,7 @@ function CaptionContentSection() {
     }
   });
   //paginagion of caption not handle
-  let PageSize = 20;
+  let PageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const currentData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;

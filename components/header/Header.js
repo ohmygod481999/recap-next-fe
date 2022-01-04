@@ -27,15 +27,15 @@ function Header() {
         <div className="row align-items-center">
           <div className="col-lg-2">
             <div className="logo-box">
-              <Link href="/">
-                <a className="logo" style={{ cursor: "pointer" }}>
+              {/* <Link href="/"> */}
+                <a href="/" className="logo" style={{ cursor: "pointer" }}>
                   <img
                     src={"/images/recap-rec.png"}
                     alt="logo"
                     style={{ cursor: "pointer" }}
                   />
                 </a>
-              </Link>
+              {/* </Link> */}
               <div className="user-action">
                 <div
                   className="search-menu-toggle icon-element icon-element-xs shadow-sm mr-1"
