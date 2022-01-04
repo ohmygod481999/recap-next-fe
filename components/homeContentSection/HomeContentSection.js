@@ -38,13 +38,13 @@ function HomeContentSection() {
             <div className="sidebar pb-45px position-sticky top-0">
               <ul className="generic-list-item generic-list-item-highlight fs-15">
                 <li className="lh-26 active">
-                  <a href="index.html">
+                  <a href="/">
                     <i className="la la-home mr-1 text-black" /> Home
                   </a>
                 </li>
 
                 <li className="lh-26">
-                  <a href="#">
+                  <a href="/captions">
                     <i className="la la-list mr-1 text-black" /> All captions
                   </a>
                 </li>

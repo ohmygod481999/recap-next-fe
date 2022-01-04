@@ -37,7 +37,7 @@ function uploadFile(data, setImage, setCheckLoad) {
   });
 }
 function User() {
-  let PageSize = 20;
+  let PageSize = 5;
   const router = useRouter();
   const authDataCahe = useReactiveVar(authVar) || {};
   const [image, setImage] = useState(authDataCahe?.user?.photoURL || null);
@@ -305,8 +305,7 @@ function User() {
                       {/* end user-panel */}
                     </div>
                     {/* end user-panel-main-bar */}
-                  </div>
-                  <div className="pager pt-4">
+                    <div className="pager pt-4">
                     <nav aria-label="Page navigation example">
                       <Pagingnation
                         onPageChange={(page) => setCurrentPage(page)}
@@ -317,6 +316,8 @@ function User() {
                       />
                     </nav>
                   </div>
+                  </div>
+                  
                   {/* end tab-pane */}
                   <div
                     className="tab-pane fade"
@@ -836,137 +837,6 @@ function User() {
               </div>
               {/* end col-lg-9 */}
               <div className="col-lg-3">
-                <div className="sidebar">
-                  <div className="card card-item p-4">
-                    <div className="card-body">
-                      <h3 className="fs-17 pb-3">Number Achievement</h3>
-                      <div className="divider">
-                        <span />
-                      </div>
-                      <div className="row no-gutters text-center">
-                        <div className="col-lg-6 responsive-column-half">
-                          <div className="icon-box pt-3">
-                            <span className="fs-20 fw-bold text-color">
-                              980k
-                            </span>
-                            <p className="fs-14">Questions</p>
-                          </div>
-                          {/* end icon-box */}
-                        </div>
-                        {/* end col-lg-6 */}
-                        <div className="col-lg-6 responsive-column-half">
-                          <div className="icon-box pt-3">
-                            <span className="fs-20 fw-bold text-color-2">
-                              610k
-                            </span>
-                            <p className="fs-14">Answers</p>
-                          </div>
-                          {/* end icon-box */}
-                        </div>
-                        {/* end col-lg-6 */}
-                        <div className="col-lg-6 responsive-column-half">
-                          <div className="icon-box pt-3">
-                            <span className="fs-20 fw-bold text-color-3">
-                              650k
-                            </span>
-                            <p className="fs-14">Answer accepted</p>
-                          </div>
-                          {/* end icon-box */}
-                        </div>
-                        {/* end col-lg-6 */}
-                        <div className="col-lg-6 responsive-column-half">
-                          <div className="icon-box pt-3">
-                            <span className="fs-20 fw-bold text-color-4">
-                              320k
-                            </span>
-                            <p className="fs-14">Users</p>
-                          </div>
-                          {/* end icon-box */}
-                        </div>
-                        {/* end col-lg-6 */}
-                        <div className="col-lg-12 pt-3">
-                          <p className="fs-14">
-                            To get answer of question{" "}
-                            <a
-                              href="signup.html"
-                              className="text-color hover-underline"
-                            >
-                              Join
-                              <i className="la la-arrow-right ml-1" />
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                      {/* end row */}
-                    </div>
-                  </div>
-                  {/* end card */}
-                  <div className="card card-item p-4">
-                    <div className="card-body">
-                      <h3 className="fs-17 pb-3">Trending Questions</h3>
-                      <div className="divider">
-                        <span />
-                      </div>
-                      <div className="sidebar-questions pt-3">
-                        <div className="media media-card media--card media--card-2">
-                          <div className="media-body">
-                            <h5>
-                              <a href="question-details.html">
-                                Using web3 to call precompile contract
-                              </a>
-                            </h5>
-                            <small className="meta">
-                              <span className="pr-1">2 mins ago</span>
-                              <span className="pr-1">. by</span>
-                              <a href="#" className="author">
-                                Sudhir Kumbhare
-                              </a>
-                            </small>
-                          </div>
-                        </div>
-                        {/* end media */}
-                        <div className="media media-card media--card media--card-2">
-                          <div className="media-body">
-                            <h5>
-                              <a href="question-details.html">
-                                Is it true while finding Time Complexity of the
-                                algorithm [closed]
-                              </a>
-                            </h5>
-                            <small className="meta">
-                              <span className="pr-1">48 mins ago</span>
-                              <span className="pr-1">. by</span>
-                              <a href="#" className="author">
-                                wimax
-                              </a>
-                            </small>
-                          </div>
-                        </div>
-                        {/* end media */}
-                        <div className="media media-card media--card media--card-2">
-                          <div className="media-body">
-                            <h5>
-                              <a href="question-details.html">
-                                image picker and store them into firebase with
-                                flutter
-                              </a>
-                            </h5>
-                            <small className="meta">
-                              <span className="pr-1">1 hour ago</span>
-                              <span className="pr-1">. by</span>
-                              <a href="#" className="author">
-                                Antonin gavrel
-                              </a>
-                            </small>
-                          </div>
-                        </div>
-                        {/* end media */}
-                      </div>
-                      {/* end sidebar-questions */}
-                    </div>
-                  </div>
-                  {/* end card */}
-                </div>
                 {/* end sidebar */}
               </div>
               {/* end col-lg-3 */}
