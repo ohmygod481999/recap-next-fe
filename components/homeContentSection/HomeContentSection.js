@@ -75,7 +75,10 @@ function HomeContentSection() {
           {/* end col-lg-2 */}
           <div className="col-lg-7 px-0">
             <div className="question-main-bar border-left border-left-gray pb-50px">
-              <div className="question-tabs mb-5px">
+              <div className="question-tabs mb-5px" style={{
+                marginLeft: "30px",
+                marginRight: "30px",
+              }}>
                 <ul
                   className="nav nav-tabs generic-tabs justify-content-center"
                   id="myTab"
@@ -107,7 +110,7 @@ function HomeContentSection() {
                       aria-controls="users"
                       aria-selected="false"
                     >
-                      Users
+                      Thành viên tích cực
                     </a>
                   </li>
                   <li className="nav-item">
@@ -154,6 +157,10 @@ function HomeContentSection() {
                   id="users"
                   role="tabpanel"
                   aria-labelledby="users-tab"
+                  style={{
+                    marginLeft: "30px",
+                    marginRight: "30px",
+                  }}
                 >
                   {/* end filters */}
                   <div className="users-main-bar">
@@ -163,7 +170,7 @@ function HomeContentSection() {
                           (
                             currentData || usersData?.data?.getTopUsers?.data
                           ).map((user) => {
-                            const { id, info } = user;
+                            const { id, info, caption_count } = user;
                             return (
                               <div key={id} className="col-lg-6">
                                 <div className="media media-card p-3">
@@ -181,7 +188,7 @@ function HomeContentSection() {
                                       {info.display_name}
                                     </h5>
                                     <small className="meta d-block lh-24 pb-1 mb-1">
-                                      <span>Thành viên tích cực</span>
+                                      <span>Tổng số caption: {caption_count}</span>
                                     </small>
                                     <p className="fw-medium fs-15 text-black-50 lh-18">
                                       {info.email}
