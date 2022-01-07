@@ -66,7 +66,6 @@ function CaptionContent({ captionsData, handleRefetch }) {
       });
     }
   }, [authDataCache]);
-  console.log(vote_number);
   return (
     <div className="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
       <div className="votes text-center votes-2">
