@@ -12,6 +12,10 @@ export const GET_CAPTIONS = gql`
           name
         }
         vote_number
+        votings {
+          id
+          user_id
+        }
         comments {
           id
         }
@@ -302,6 +306,23 @@ export const GET_CAPTION_FOR_ADMIN_CACHE = gql`
             photo_url
             email
           }
+        }
+      }
+    }
+  }
+`;
+export const GET_TOP_USERS = gql`
+  query getTopUsers {
+    getTopUsers {
+      data {
+        id
+        caption_count
+        info {
+          display_name
+          phone_number
+          photo_url
+          tenant_id
+          email
         }
       }
     }
